@@ -80,6 +80,7 @@ void ASTManager::addNodeChildrenFromContent(std::string& content, ASTreeNode* no
 }
 
 //Find a route node with a specific endpoint
+[[nodiscard]]
 std::shared_ptr<ASTreeNode> ASTManager::findRouteNodeWithEndpoint(const std::string& endpoint, std::shared_ptr<ASTreeNode> startnode = ASTManager::rootNode) {
 	if (!startnode || startnode == nullptr) {
 		if (ASTManager::rootNode == nullptr) {
@@ -100,6 +101,7 @@ std::shared_ptr<ASTreeNode> ASTManager::findRouteNodeWithEndpoint(const std::str
 	return nullptr; //Not found in this branch
 }
 
+[[nodiscard]]
 std::shared_ptr<ASTreeNode> ASTManager::findNodeWithName(const std::string& name, std::shared_ptr<ASTreeNode> startnode = ASTManager::rootNode) {
 	if (!startnode || startnode == nullptr) {
 		if (ASTManager::rootNode == nullptr) {
@@ -123,6 +125,7 @@ std::shared_ptr<ASTreeNode> ASTManager::findNodeWithName(const std::string& name
 	return nullptr; //Not found in this branch
 }
 
+[[nodiscard]]
 std::shared_ptr<ASTreeNode> ASTManager::findNodeWithTagName(const std::string& Tagname, std::shared_ptr<ASTreeNode> startnode = ASTManager::rootNode) {
 	if (!startnode || startnode == nullptr) {
 		if (ASTManager::rootNode == nullptr) {
@@ -142,6 +145,7 @@ std::shared_ptr<ASTreeNode> ASTManager::findNodeWithTagName(const std::string& T
 	return nullptr; //Not found in this branch
 }
 
+[[nodiscard]]
 std::shared_ptr<ASTreeNode> ASTManager::findNodeWithTagandName(const std::string& Tagname, const std::string& name, std::shared_ptr<ASTreeNode> startnode) {
 	if (!startnode || startnode == nullptr) {
 		if (ASTManager::rootNode == nullptr) {

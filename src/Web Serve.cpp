@@ -8,6 +8,7 @@
 #include "core/FileSystem.h"
 #include "core/storeNode.h"
 #include "core/requestNode.h"
+#include "core/itemNode.h"
 
 #include "process/process.h"
 
@@ -27,6 +28,7 @@ static void registerClasses() {
 	ASTNodeFactory::getInstance().registerClass("filesystem", []() { return std::make_shared<FileSystem>(); });
 	ASTNodeFactory::getInstance().registerClass("request", []() { return std::make_shared<RequestNode>(); });
 	ASTNodeFactory::getInstance().registerClass("store", []() { return std::make_shared<StoreNode>(); });
+	ASTNodeFactory::getInstance().registerClass("item", []() { return std::make_shared<ItemNode>(); });
 }
 
 int main(int argc, char** argv) {
