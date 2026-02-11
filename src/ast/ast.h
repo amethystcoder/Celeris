@@ -60,7 +60,6 @@ public:
 
 	static void addTagName(const std::string& tagname, ASTreeNode* node);
 
-	void printMessage();
 
 	std::string getTagName() const noexcept;
 

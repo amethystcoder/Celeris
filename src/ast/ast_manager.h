@@ -24,6 +24,8 @@ public:
 
 	static std::shared_ptr<ASTreeNode> findNodeWithName(const std::string& name, std::shared_ptr<ASTreeNode> startnode);
 	
+	static std::shared_ptr<ASTreeNode> findNodeWithTagandName(const std::string& Tagname, const std::string& name, std::shared_ptr<ASTreeNode> startnode = ASTManager::rootNode);
+	
 	static NodeDependencies transformNodeDependencies(std::vector<RawDependency*> rawDep);
 
 	std::shared_ptr<ASTreeNode> buildTree(std::filesystem::path htmlPath);

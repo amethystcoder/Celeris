@@ -31,10 +31,6 @@ void ASTreeNode::AddChild(std::shared_ptr<ASTreeNode> child)
 	children.emplace_back(child);
 }
 
-void ASTreeNode::printMessage() {
-	std::cout << this->nodeAttributes["message"] << "\n";
-}
-
 //remove a child from the node
 	//removal should actually never happen except in rare cases
 void ASTreeNode::RemoveChild(std::shared_ptr<ASTreeNode> child)

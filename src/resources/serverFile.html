@@ -1,7 +1,10 @@
 <server port='5000' message='server is running on port {self.port}'>
-    <ratelimit maxRequests='100' per='60s' name='someratelimitname' message="rate limiter is created... or something"/>
-    <api>
-        <route endpoint='/name' method='GET' rescontenttype='html' response='HTMLPage.html'></route>
+    <store>
+
+    </store>
+    <ratelimit maxRequests='100' per='60s' name='someratelimitname' message='rate limiter is created for server on port {server.port}'/>
+    <api message='please note that the default endpoint to get anything is {route.default.endpoint} on the port {server.port}'>
+        <route endpoint='/name' method='GET' rescontenttype='html' response='HTMLPage.html' name='default'></route>
         <route endpoint='/stats' method='GET' rescontenttype='html' response='kjfdkj.html'></route>
         <route endpoint='/wonder' method='GET' rescontenttype='json' response='some file.json'></route>
         <route endpoint='/equip' method='GET' rescontenttype='html' response='Hello, You are in the equip page!'></route>

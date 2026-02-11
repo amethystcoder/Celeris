@@ -55,7 +55,7 @@ public:
 
 	static std::map<std::string, std::string> parseJSON(const std::string& raw_json);
 
-	std::vector<std::string> splitString(const std::string& str, char delimiter);
+	static std::vector<std::string> splitString(const std::string& str, char delimiter);
 	
 
 private:

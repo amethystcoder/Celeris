@@ -29,14 +29,11 @@ std::shared_ptr<ASTreeNode> ASTManager::buildTree(std::filesystem::path htmlPath
 
 			//create a node for the server tag
 			std::shared_ptr<ASTreeNode> serverNode = ASTNodeFactory::getInstance().create("server");
-			//Todo: check here if there is a possibility that this could be causing the double child creation?
 			rootNode = serverNode; //set the root node to the server node
 			if (serverNode == nullptr) {
 				std::cerr << "Server was not successfully created" << std::endl;
 				return nullptr;
 			}
-			//there might be a slight bug here to fix later
-			//TODO: make sure to fix bug here
 			NodeDependencies transformedDependencies = ASTManager::transformNodeDependencies(serverNode->getRawDependencies());
 			serverNode->registernode(tag_data.tag, tag_data.attributes, tag_data.content);
 			CelProcess::getInstance().attachProcess(
@@ -83,6 +80,7 @@ void ASTManager::addNodeChildrenFromContent(std::string& content, ASTreeNode* no
 }
 
 //Find a route node with a specific endpoint
+[[nodiscard]]
 std::shared_ptr<ASTreeNode> ASTManager::findRouteNodeWithEndpoint(const std::string& endpoint, std::shared_ptr<ASTreeNode> startnode = ASTManager::rootNode) {
 	if (!startnode || startnode == nullptr) {
 		if (ASTManager::rootNode == nullptr) {
@@ -103,6 +101,7 @@ std::shared_ptr<ASTreeNode> ASTManager::findRouteNodeWithEndpoint(const std::str
 	return nullptr; //Not found in this branch
 }
 
+[[nodiscard]]
 std::shared_ptr<ASTreeNode> ASTManager::findNodeWithName(const std::string& name, std::shared_ptr<ASTreeNode> startnode = ASTManager::rootNode) {
 	if (!startnode || startnode == nullptr) {
 		if (ASTManager::rootNode == nullptr) {
@@ -126,6 +125,7 @@ std::shared_ptr<ASTreeNode> ASTManager::findNodeWithName(const std::string& name
 	return nullptr; //Not found in this branch
 }
 
+[[nodiscard]]
 std::shared_ptr<ASTreeNode> ASTManager::findNodeWithTagName(const std::string& Tagname, std::shared_ptr<ASTreeNode> startnode = ASTManager::rootNode) {
 	if (!startnode || startnode == nullptr) {
 		if (ASTManager::rootNode == nullptr) {
@@ -139,6 +139,28 @@ std::shared_ptr<ASTreeNode> ASTManager::findNodeWithTagName(const std::string& T
 	//Recursively search children
 	for (auto& child : startnode->GetChildren()) {
 		std::shared_ptr<ASTreeNode> result = findNodeWithTagName(Tagname, child);
+		if (result) return result;
+	}
+
+	return nullptr; //Not found in this branch
+}
+
+[[nodiscard]]
+std::shared_ptr<ASTreeNode> ASTManager::findNodeWithTagandName(const std::string& Tagname, const std::string& name, std::shared_ptr<ASTreeNode> startnode) {
+	if (!startnode || startnode == nullptr) {
+		if (ASTManager::rootNode == nullptr) {
+			return nullptr; //No root node available
+		}
+		startnode = ASTManager::rootNode; //Start from the root node if no start node is provided
+	}
+
+	if (startnode->nodeAttributes.find("name") != startnode->nodeAttributes.end()) {
+		if (startnode->nodeAttributes["name"] == name && startnode->getTagName() == Tagname) return startnode;
+	}
+
+	//Recursively search children
+	for (auto& child : startnode->GetChildren()) {
+		std::shared_ptr<ASTreeNode> result = findNodeWithTagandName(Tagname, name ,child);
 		if (result) return result;
 	}
 

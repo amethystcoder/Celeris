@@ -75,6 +75,8 @@ void FileParser::parseStringTemplateLiteral(const std::string& input) {
 	}
 }
 
+//delimiter is char to ensure that one character is used i.e '.'.
+//There would be another function like this that would deal with two or more characters
 std::vector<std::string> FileParser::splitString(const std::string& str, char delimiter) {
 	std::vector<std::string> tokens;
 	std::stringstream ss(str);
