@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(Celeris
-    src/Web\ Serve.cpp
+    src/main.cpp
 
     # ast
     src/ast/ast.cpp
