@@ -27,16 +27,27 @@ int main(int argc, char** argv) {
 
 	AmthSocket::SocketImpl sockimpl{};
 	registerClasses();
+	
+
+	if (argc == 1){
+		//remember to write a proper error message later
+		std::cout << "Celeris requires the server file to be run. Aborting" << std::endl; //flush properly
+		return 1;
+	}
 
 	//find the current working directory
 	std::filesystem::path currentPath = std::filesystem::current_path();
 
-	std::string html_text = "../../../src/resources/serverFile.html"; 
+
+
+	std::string html_text = argv[1]; // test with this path "./src/resources/serverFile.html"
+	
+
 	//keep this for now, in the finished application, this would be set to the absolute path of the html file to be parsed
 	//there could also be a command line argument to specify the path to the html file and something to determine the location of the file
 
 	std::filesystem::path htmlPath = currentPath / html_text;
 
-	ASTreeNode* rootNode = ASTManager::getInstance().buildTree(htmlPath);
+	[[maybe_unused]]ASTreeNode* rootNode = ASTManager::getInstance().buildTree(htmlPath);
 }
 
