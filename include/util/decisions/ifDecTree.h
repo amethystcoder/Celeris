@@ -14,46 +14,6 @@ using OpFunc = std::function<bool(std::string&)>;
 class ifDecTree
 {
     //contain a list of 
-    const std::array<std::pair<OPS, OpFunc>,9> op_checklists{
-        {
-            {
-                OPS::ADD, [](std::string& data){ 
-                return (data[0] == '+');  
-            }},
-            {
-                OPS::AND, [](std::string& data){ 
-                    return (data[0] == '&' && data[1] == '&'); 
-                }},
-            {
-                OPS::DIV, [](std::string& data){ 
-                    return (data[0] == '/'); 
-                }},
-            {
-                OPS::EQ, [](std::string& data){ 
-                    return (data[0] == '=' && data[1] == '='); 
-                }},
-            {
-                OPS::MUL, [](std::string& data){ 
-                    return(data[0] == '*'); 
-                }},
-            {
-                OPS::NEQ, [](std::string& data){ 
-                    return (data[0] == '!' && data[1] == '='); 
-                }},
-            {
-                OPS::OR, [](std::string& data){ 
-                    return (data[0] == '|' && data[1] == '|'); 
-                }},
-            {
-                OPS::SUB, [](std::string& data){ 
-                    return (data[0] == '-'); 
-                }},
-            {
-                OPS::BASE, [](std::string& data){
-                     return true;
-                    }} //base is at the end as an else (fail statement)
-        }
-    };
     void split_eq(const std::string& expression);
     std::vector<std::string> tokenize(const std::string& expr);
     std::vector<std::string> split(const std::string& s, char delim) const;
