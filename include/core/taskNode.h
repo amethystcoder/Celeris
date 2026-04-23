@@ -2,6 +2,7 @@
 #define TASK_H
 
 #include "ast/ast.h"
+#include "ast/ast_manager.h"
 
 class TaskNode : public ASTreeNode {
 
@@ -11,7 +12,8 @@ public:
 
 	void registernode(const std::string& name, const std::string& attributes, std::string& content);
 
-	ProcessEntry* getattachable(NodeDependencies& dependencies) override;
+	//might need to include get attachable here, as this is a cronjob node
+	//ProcessEntry* getattachable(NodeDependencies& dependencies) override;
 
     bool startTask();
 
