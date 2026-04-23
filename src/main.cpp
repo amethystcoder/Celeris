@@ -8,9 +8,16 @@
 #include "core/APINode.h"
 #include "core/RatelimitNode.h"
 #include "core/FileSystem.h"
+#include "core/storeNode.h"
+#include "core/requestNode.h"
+#include "core/itemNode.h"
+
+#include "process/process.h"
+
 #include "ast/ast_factory.h"
 #include <filesystem>
 #include "ast/ast_manager.h"
+#include "util/logger.h"
 
 
 // Helper function to register classes
@@ -21,6 +28,9 @@ static void registerClasses() {
 	ASTNodeFactory::getInstance().registerClass("database", []() { return std::make_shared<DatabaseNode>(); });
 	ASTNodeFactory::getInstance().registerClass("ratelimit", []() { return std::make_shared<RateLimitNode>(); });
 	ASTNodeFactory::getInstance().registerClass("filesystem", []() { return std::make_shared<FileSystem>(); });
+	ASTNodeFactory::getInstance().registerClass("request", []() { return std::make_shared<RequestNode>(); });
+	ASTNodeFactory::getInstance().registerClass("store", []() { return std::make_shared<StoreNode>(); });
+	ASTNodeFactory::getInstance().registerClass("item", []() { return std::make_shared<ItemNode>(); });
 }
 
 int main(int argc, char** argv) {
@@ -49,5 +59,11 @@ int main(int argc, char** argv) {
 	std::filesystem::path htmlPath = currentPath / html_text;
 
 	[[maybe_unused]]ASTreeNode* rootNode = ASTManager::getInstance().buildTree(htmlPath);
-}
 
+	Logger log{};
+
+	log.startLoggerParse(rootNode, rootNode);
+	log.PrintLogQueues();
+
+	CelProcess::getInstance().beginprocess();
+}
