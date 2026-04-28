@@ -4,10 +4,6 @@
 // 
 // 2024
 
-#ifndef _WIN32_WINNT
-#define _WIN32_WINNT 0x501
-#endif // !_WIN32_WINNT
-
 #ifndef SOCKET_IMPL
 
 #define SOCKET_IMPL
@@ -18,11 +14,9 @@
 
 #include <iostream>
 #include <stdexcept>
-#include <WinSock2.h>
 #include <system_error>
 #include <utility>
-
-#pragma comment(lib, "Ws2_32.lib")
+#include "platform/platform.h"
 
 
 namespace AmthSocket {
@@ -38,15 +32,18 @@ namespace AmthSocket {
 		SocketImpl& operator = (const SocketImpl&) = delete;
 
 		SocketImpl(SocketImpl&& socklib) noexcept :
-			socketInitialized{ std::exchange(socklib.socketInitialized,false)},
-			WSAdata{ socklib.WSAdata }
+			socketInitialized{ std::exchange(socklib.socketInitialized,false)}
+#if PLATFORM_WINDOWS
+			,WSAdata{ socklib.WSAdata }
+#endif
 		{}
 
 
 		SocketImpl& operator = (SocketImpl&& rhs) noexcept {
 			socketInitialized = std::exchange(rhs.socketInitialized, false);
-			WSAdata = rhs.WSAdata ;
-
+#if PLATFORM_WINDOWS
+			WSAdata = rhs.WSAdata;
+#endif
 			return *this;
 		}
 
@@ -55,12 +52,17 @@ namespace AmthSocket {
 
 		inline bool isInitialized() const noexcept;
 
+		#if PLATFORM_WINDOWS
 		inline const WSADATA& getWSAData() const noexcept;
+#else
+		inline void getWSAData() const noexcept {}
+#endif
 
 		void handleStartupError(int errorcode);
 	private:
+#if PLATFORM_WINDOWS
 		WSADATA WSAdata{};
-
+#endif
 		bool socketInitialized = false;
 	};
 }

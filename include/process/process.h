@@ -26,6 +26,7 @@ public:
 
 	void printProcesses() const noexcept;
 
+	
 	static CelProcess& getInstance() noexcept {
 		static CelProcess instance;
 		return instance;
@@ -34,5 +35,6 @@ public:
 private:
 	//AstreeNode* | a list of the nodes dependencies
 	std::vector<ProcessEntry*> processNodes;
-};
+	
+	};
 #endif // !PROCESS_H

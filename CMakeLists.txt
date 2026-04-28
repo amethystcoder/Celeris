@@ -36,6 +36,9 @@ add_executable(Celeris
     src/net/socket.cpp
     src/net/Socket_manager.cpp
 
+    # platform
+    src/platform/plugin_loader.cpp
+
     # process
     src/process/process.cpp
 
@@ -57,9 +60,13 @@ target_include_directories(Celeris PRIVATE
     ${CMAKE_SOURCE_DIR}/include
 )
 
-# Link Winsock on Windows
+# Platform-specific linking
 if(WIN32)
-    target_link_libraries(Celeris PRIVATE ws2_32)
+    target_link_libraries(Celeris PRIVATE ws2_32 psapi)
+elseif(UNIX AND NOT APPLE)
+    target_link_libraries(Celeris PRIVATE pthread)
+elseif(APPLE)
+    target_link_libraries(Celeris PRIVATE pthread)
 endif()
 
 # Compiler warnings

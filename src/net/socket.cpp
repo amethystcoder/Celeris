@@ -1,28 +1,37 @@
 #include "net/socket.hpp"
+#include <cstring>
 
 AmthSocket::SocketImpl::SocketImpl()
 {
+#if PLATFORM_WINDOWS
 	const int startupResult = WSAStartup(WINSOCK_VERSION, &WSAdata);
 	if (startupResult != 0) {
 		//Throw an exception
 		throw std::system_error(startupResult, std::system_category());
 	}
-
+#elif PLATFORM_POSIX
+	// POSIX systems don't need WSAStartup
+#endif
 	socketInitialized = true;
 }
 
 AmthSocket::SocketImpl::~SocketImpl() noexcept
 {
 	if (socketInitialized) {
+#if PLATFORM_WINDOWS
 		std::ignore = WSACleanup();
 		/* if (cleanupResult != 0) {
 			int WSAerror = WSAGetLastError();
 		} */
+#elif PLATFORM_POSIX
+		// POSIX systems don't need WSACleanup
+#endif
 	}
 }
 
 void AmthSocket::SocketImpl::handleStartupError(int errorcode) {
 	std::cerr << "Error: " << errorcode << std::endl;
+#if PLATFORM_WINDOWS
 	//handle each category of error
 	switch (errorcode)
 	{
@@ -47,19 +56,39 @@ void AmthSocket::SocketImpl::handleStartupError(int errorcode) {
 	default:
 		break;
 	}
+#elif PLATFORM_POSIX
+	// POSIX error handling
+	switch (errorcode) {
+	case EACCES:
+		std::cerr << "Permission denied." << std::endl;
+		break;
+	case EADDRINUSE:
+		std::cerr << "Address already in use." << std::endl;
+		break;
+	case ECONNREFUSED:
+		std::cerr << "Connection refused." << std::endl;
+		break;
+	default:
+		std::cerr << "Socket error: " << strerror(errorcode) << std::endl;
+		break;
+	}
+#endif
 	//still deciding whether it is a good idea to throw an exception here or not
 	//throw std::system_error(errorcode, std::system_category());
 }
 
 
 AmthSocket::SocketImpl::SocketImpl(std::nothrow_t) {
+#if PLATFORM_WINDOWS
 	const int startupResult = WSAStartup(WINSOCK_VERSION, &WSAdata);
 	if (startupResult != SOCKETCONNECTIONSUCCESS) {
 		//TODO: Handle the error here 
 		handleStartupError(WSAGetLastError());
 		return;
 	}
-
+#elif PLATFORM_POSIX
+	// POSIX systems don't need WSAStartup
+#endif
 	socketInitialized = true;
 }
 
@@ -68,6 +97,12 @@ inline bool AmthSocket::SocketImpl::isInitialized() const noexcept {
 	return socketInitialized;
 }
 
+#if PLATFORM_WINDOWS
 inline const WSADATA& AmthSocket::SocketImpl::getWSAData() const noexcept {
 	return WSAdata;
 }
+#elif PLATFORM_POSIX
+inline void AmthSocket::SocketImpl::getWSAData() const noexcept {
+	// No-op on POSIX systems
+}
+#endif

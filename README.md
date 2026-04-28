@@ -20,14 +20,47 @@
 
 > Coming soon: Install via `.exe` installer, package manager, or source.
 
-For now, clone and build manually:
+### Cross-Platform Build Instructions
 
+Celeris now supports Windows, Linux, macOS, and other Unix-like systems with compile-time OS detection.
+
+#### Prerequisites
+- **C++20 compatible compiler** (GCC 9+, Clang 10+, MSVC 2019+)
+- **CMake 3.16+**
+- **Platform-specific libraries** (automatically linked by CMake)
+
+#### Build Commands
+
+**Windows (Visual Studio):**
+```bash
+git clone https://github.com/amethystcoder/Web-Serve.git
+cd Web-Serve
+mkdir build && cd build
+cmake .. -G "Visual Studio 16 2019"
+cmake --build . --config Release
+```
+
+**Linux/macOS:**
+```bash
+git clone https://github.com/amethystcoder/Web-Serve.git
+cd Web-Serve
+mkdir build && cd build
+cmake ..
+make -j$(nproc)
+```
+
+**Alternative (make):**
 ```bash
 git clone https://github.com/amethystcoder/Web-Serve.git
 cd Web-Serve
 make   # or cmake . && make
-./Web-Served
+./Celeris
 ```
+
+### Platform Features
+- **Windows**: Native Winsock2 support, process management via Windows API
+- **Linux/macOS**: POSIX socket support, process management via standard Unix APIs
+- **Cross-platform**: Compile-time OS detection ensures optimal performance on each platform
 
 ---
 
