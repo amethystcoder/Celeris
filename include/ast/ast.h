@@ -60,7 +60,7 @@ public:
 
 	void RemoveChild(std::shared_ptr<ASTreeNode> child);
 
-	NodeChildren GetChildren();
+	virtual NodeChildren GetChildren();
 
 	static void setNodeAttributes(std::map<std::string, std::string> attributes, ASTreeNode* node);
 
@@ -87,9 +87,6 @@ public:
 	virtual void subTask() const;
 private:
 
-	//use vector to store children
-	NodeChildren children;
-
 	//use a vector to store raw dependencies
 	std::vector<RawDependency*> rawDependencies;
 
@@ -102,6 +99,10 @@ private:
 	ASTreeNode* parent = nullptr;
 
 	std::string name;
+
+protected:
+	//use vector to store children
+	NodeChildren children;
 };
 
 

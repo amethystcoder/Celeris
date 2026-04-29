@@ -11,6 +11,7 @@
 #include "core/storeNode.h"
 #include "core/requestNode.h"
 #include "core/itemNode.h"
+#include "core/ifNode.h"
 
 #include "process/process.h"
 
@@ -31,6 +32,7 @@ static void registerClasses() {
 	ASTNodeFactory::getInstance().registerClass("request", []() { return std::make_shared<RequestNode>(); });
 	ASTNodeFactory::getInstance().registerClass("store", []() { return std::make_shared<StoreNode>(); });
 	ASTNodeFactory::getInstance().registerClass("item", []() { return std::make_shared<ItemNode>(); });
+	ASTNodeFactory::getInstance().registerClass("if", []() { return std::make_shared<IfNode>(); });
 }
 
 int main(int argc, char** argv) {

@@ -170,6 +170,7 @@ ifDecTree::ifDecTree()
 
 ifDecTree::~ifDecTree(){
     // TODO: delete tree
+    //recursively go through the tree and delete
 }
 
 // evaluates the tree and returns the result

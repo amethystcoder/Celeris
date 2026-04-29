@@ -54,7 +54,7 @@ add_executable(Celeris
     # util/decisions
     src/util/decisions/decNode.cpp
     src/util/decisions/ifDecTree.cpp
-)
+ "src/core/ifNode.cpp" "include/core/ifNode.h")
 
 target_include_directories(Celeris PRIVATE
     ${CMAKE_SOURCE_DIR}/include

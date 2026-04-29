@@ -44,6 +44,7 @@ void ASTreeNode::RemoveChild(std::shared_ptr<ASTreeNode> child)
 		{
 			children.erase(children.begin() + i);
 			//add code to actually delete child node here
+			child.reset();
 			break;
 		}
 	}

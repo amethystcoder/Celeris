@@ -14,7 +14,6 @@ using OpFunc = std::function<bool(std::string&)>;
 class ifDecTree
 {
     //contain a list of 
-    void split_eq(const std::string& expression);
     std::vector<std::string> tokenize(const std::string& expr);
     std::vector<std::string> split(const std::string& s, char delim) const;
     std::string resolve(decNode* node) const;
@@ -31,6 +30,7 @@ public:
     ifDecTree(/* args */);
     ~ifDecTree();
     bool evaluate() const;
+    void split_eq(const std::string& expression);
 
 };
 
