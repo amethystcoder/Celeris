@@ -4,6 +4,7 @@
 //some tag closing definitions
 #define CLOSING_TAG '>'
 #define OPENING_TAG '<'
+#define OPENING_POSSIBLE_COMMENT '!'
 
 #include <map>
 #include <fstream>

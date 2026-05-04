@@ -40,7 +40,7 @@ bool FileParser::check_is_file(const std::string& filename) {
 std::map<std::string, std::string> FileParser::parseAttributes(const std::string& input) {
     std::map<std::string, std::string> result;
 
-    size_t pos = 0;
+	size_t pos{ 0 };
     const size_t len = input.size();
 
     while (pos < len) {
@@ -125,8 +125,10 @@ TagDataList FileParser::parse_html_content(std::string& html_text) {
 
 	std::stringstream ss(html_text);
 	TagDataList tag_list;
-	short depth = 0;
-	bool in_tag = false;
+	short depth { 0u };
+	bool in_tag{ false };
+
+	bool possible_comment{ false }, in_comment{ false };
 
 	char c;
 	std::string nameAndAttributes;
@@ -134,6 +136,47 @@ TagDataList FileParser::parse_html_content(std::string& html_text) {
 
 	while (ss.get(c)) {
 		if (depth == 0 && c != OPENING_TAG) continue;
+
+		//check for comments
+		/////////////////////////////////////////////
+		// Comments have the structure <!-- -->
+		// 
+		// text or code after <!-- opening tags and --> would be ignored and not parsed
+		// 
+		// What happens in the case of ill-formed comments?:
+		//	In the case of an ill formed comment, if the ill-formed comment starts with <! ,
+		// it would be ignored until its closing tag as if it were a comment, 
+		// and a warning would be displayed in the terminal
+		/////////////////////////////////////////////
+		if (c == OPENING_TAG && ss.peek() == OPENING_POSSIBLE_COMMENT) {
+			//we are possibly in a comment
+			ss.get(); // consume the next part of the character !
+			possible_comment = true;
+			//since possible comment, check that the next parts of the comment are possibly valid
+			ss.get(c);
+			if (c == '-' && ss.peek() == '-'){
+				in_comment = true; //in_comment and possible_comment are going to be used for possible future comment analysis and tracking
+			}
+			else {
+				std::cout << "Malformed comment... code in malformed comment would be ignored until the next closing tag" << "\n"; //TODO: work on getting line numbers for warnings and errors
+			}
+			//keep ignoring comments
+			while (ss.get(c) && in_comment)
+			{
+				//check for closing comment indicator '--'
+				if (c == '-' && ss.peek() == '-')
+				{
+					ss.get(); //consume next -
+					//check for >
+					if (ss.peek() == CLOSING_TAG) {
+						possible_comment = false;
+						in_comment = false;
+					}
+				}
+			}
+		}
+
+
 
 		if (c == OPENING_TAG && ss.peek() != '/') {
 			// Start of new tag
