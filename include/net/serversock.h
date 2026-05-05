@@ -4,9 +4,7 @@
 
 #include <string>
 #include <system_error>
-#include <WinSock2.h>
 #include "cleansocket.h"
-#include <WS2tcpip.h>
 
 namespace AmthSocket
 {

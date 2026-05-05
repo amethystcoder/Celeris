@@ -4,7 +4,7 @@
 
 FileParser::FileParser(const char* filename)
 {
-	fileRead.open("", std::ios::binary | std::ios::ate);
+	fileRead.open(filename, std::ios::binary | std::ios::ate);
 	if (fileRead.fail()) return;
 
 	std::streamsize size = fileRead.tellg();

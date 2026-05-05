@@ -93,6 +93,7 @@ public:
 	}
 
 private:
+    //need to create overloads for these as well as define what the copy, move, move assignment, and copy assignment should do here
     ConnectionRequest() = default;
     ~ConnectionRequest() = default;
 
