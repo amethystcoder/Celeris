@@ -26,7 +26,7 @@ You can pick one of the issues to fix, or create an issue yourself and fix too.
 I am trying to work the celeris app in such a way that you don't need to manually install internal stuff like tags.
 For example, say you had some html code like this,
 
-```
+```html
 <server port="5000">
 	<!-- This is not a core node/tag -->
 	<logStuff message="I am just an example tag... I might or might not exist" />
@@ -55,7 +55,7 @@ The second is `subTask()` which is used by another node, to call the main tasks 
 Sort of a `main` entry method for your tag. 
 For example, a `<route><route>` tag may call the above `<logStuff />` to log, after a request comes in like
 
-```
+```html
 <!-- different subtasks can be placed in the run of a tag like "subtasktag1 subtasktag2"-->
 <route run="logStuff"><route> <!-- could also be the name attached to the tag i.e logStuff.first where first is a name="first" attribute-->
 ```
