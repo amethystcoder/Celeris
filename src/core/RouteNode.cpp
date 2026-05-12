@@ -98,7 +98,7 @@ ProcessEntry* RouteNode::getattachable(NodeDependencies& dependencyList)
 				RateLimitNode* rateLimitNode = static_cast<RateLimitNode*>(this->getDependency(&rateLimitDep));
 				if (rateLimitNode == nullptr) {
 					ServerApplication->sendResponse("HTTP/1.1 500 Internal Server Error\nContent-Type: text/html\n\n<html><body><h1>500 Internal Server Error</h1></body></html>");
-					//continue;
+					return;
 				}
 				rateLimitNode->addNewIpaddress(conReq.getIpAddress());
 
