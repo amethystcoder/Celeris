@@ -4,7 +4,7 @@
 
 ---
 
-##  Features
+## Some Features
 
 -  **Fast and Lightweight** – Built in C++ for maximum performance.
 -  **Custom Configuration** – Define your server behavior using intuitive HTML-like syntax.
@@ -18,16 +18,16 @@
 
 ##  Installation
 
-> Coming soon: Install via `.exe` installer, package manager, or source.
+> Coming soon: You would soon be able to install via `.exe` installer, or `.msi` 
 
 ### Cross-Platform Build Instructions
 
-Celeris now supports Windows, Linux, macOS, and other Unix-like systems with compile-time OS detection.
+Celeris supports Windows, Linux, macOS, and other Unix-like systems with compile-time OS detection.
 
 #### Prerequisites
 - **C++20 compatible compiler** (GCC 9+, Clang 10+, MSVC 2019+)
 - **CMake 3.16+**
-- **Platform-specific libraries** (automatically linked by CMake)
+- **Platform-specific libraries** (would be automatically linked by CMake)
 
 #### Build Commands
 
@@ -57,11 +57,6 @@ make   # or cmake . && make
 ./Celeris
 ```
 
-### Platform Features
-- **Windows**: Native Winsock2 support, process management via Windows API
-- **Linux/macOS**: POSIX socket support, process management via standard Unix APIs
-- **Cross-platform**: Compile-time OS detection ensures optimal performance on each platform
-
 ---
 
 ##  Configuration
@@ -88,9 +83,18 @@ More details and examples coming soon.
 ##  Project Structure
 
 ```bash
-celerisd/            # Core source code
-configs/             # Sample server config files
-public/              # Static assets (optional)
+celeris/             # Core main folder
+include/             # Header files
+src/                 # cpp source files
+
+# folders under src and include
+    ast/             # Execution Tree and Management
+    core/            # Standard Tags and their functionality
+    net/             # Network protocols and sockets
+    platform/        # Determining or working with different platforms (e.g Windows, Linux)
+    process/         # Request Lifecycles and Tag Lifecycle management
+    util/            # Core Utilities like parsers, file readers, loggers e.t.c 
+
 docs/                # Documentation (in progress)
 tests/               # Unit and integration tests
 ```
@@ -121,13 +125,15 @@ make test
 
 ##  Contributing
 
-Contributions are welcome! Please open an issue or PR.
+Contributions are welcome and appreciated! Please open an issue or PR.
 
 1. Fork the repo
 2. Create your feature branch (`git checkout -b feature/foo`)
 3. Commit your changes (`git commit -am 'Add foo'`)
 4. Push to the branch (`git push origin feature/foo`)
 5. Open a pull request
+
+More information about contributing [here](https://github.com/amethystcoder/Celeris/blob/master/docs/CONTRIBUTING.md)
 
 ---
 
