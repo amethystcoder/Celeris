@@ -103,11 +103,7 @@ tests/               # Unit and integration tests
 
 ##  Running Tests
 
-```bash
-make test
-# or
-./run_tests
-```
+Main tests are coming very soon.
 
 ---
 
