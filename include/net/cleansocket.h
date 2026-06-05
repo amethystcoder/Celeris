@@ -3,10 +3,8 @@
 
 #include <string>
 #include <system_error>
-#include <WS2tcpip.h>
 #include <iostream>
 #include "socket.hpp"
-
 
 class CleanSocket {
 public:

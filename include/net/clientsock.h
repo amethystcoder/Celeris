@@ -2,8 +2,6 @@
 #define CLIENTSOCK_H
 
 #include <string>
-#include <WinSock2.h>
-#include <WS2tcpip.h>
 #include "cleansocket.h"
 
 namespace AmthSocket

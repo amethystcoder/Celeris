@@ -52,9 +52,11 @@ namespace AmthSocket {
 
 		inline bool isInitialized() const noexcept;
 
-		#if PLATFORM_WINDOWS
+#if PLATFORM_WINDOWS
 		inline const WSADATA& getWSAData() const noexcept;
 #else
+		//in the case that there is code somewhere that relies on this method.
+		//there should not be, but in the case that there is.
 		inline void getWSAData() const noexcept {}
 #endif
 
