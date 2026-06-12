@@ -10,7 +10,6 @@
 #include "../net/cleansocket.h"
 #include "../process/connectionRequest.h"
 #include "RatelimitNode.h"
-#include <winsock.h>
 
 class ServerNode : public ASTreeNode
 {
