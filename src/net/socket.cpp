@@ -1,7 +1,7 @@
 #include "net/socket.hpp"
 #include <cstring>
 
-AmthSocket::SocketImpl::SocketImpl()
+Celeris::SocketImpl::SocketImpl()
 {
 #if PLATFORM_WINDOWS
 	const int startupResult = WSAStartup(WINSOCK_VERSION, &WSAdata);
@@ -15,7 +15,7 @@ AmthSocket::SocketImpl::SocketImpl()
 	socketInitialized = true;
 }
 
-AmthSocket::SocketImpl::~SocketImpl() noexcept
+Celeris::SocketImpl::~SocketImpl() noexcept
 {
 	if (socketInitialized) {
 #if PLATFORM_WINDOWS
@@ -29,7 +29,7 @@ AmthSocket::SocketImpl::~SocketImpl() noexcept
 	}
 }
 
-void AmthSocket::SocketImpl::handleStartupError(int errorcode) {
+void Celeris::SocketImpl::handleStartupError(int errorcode) {
 	std::cerr << "Error: " << errorcode << std::endl;
 #if PLATFORM_WINDOWS
 	//handle each category of error
@@ -78,7 +78,7 @@ void AmthSocket::SocketImpl::handleStartupError(int errorcode) {
 }
 
 
-AmthSocket::SocketImpl::SocketImpl(std::nothrow_t) {
+Celeris::SocketImpl::SocketImpl(std::nothrow_t) {
 #if PLATFORM_WINDOWS
 	const int startupResult = WSAStartup(WINSOCK_VERSION, &WSAdata);
 	if (startupResult != SOCKETCONNECTIONSUCCESS) {
@@ -93,12 +93,12 @@ AmthSocket::SocketImpl::SocketImpl(std::nothrow_t) {
 }
 
 
-inline bool AmthSocket::SocketImpl::isInitialized() const noexcept {
+inline bool Celeris::SocketImpl::isInitialized() const noexcept {
 	return socketInitialized;
 }
 
 #if PLATFORM_WINDOWS
-inline const WSADATA& AmthSocket::SocketImpl::getWSAData() const noexcept {
+inline const WSADATA& Celeris::SocketImpl::getWSAData() const noexcept {
 	return WSAdata;
 }
 #elif PLATFORM_POSIX

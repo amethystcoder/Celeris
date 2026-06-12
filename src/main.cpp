@@ -37,7 +37,7 @@ static void registerClasses() {
 
 int main(int argc, char** argv) {
 
-	AmthSocket::SocketImpl sockimpl{};
+	Celeris::SocketImpl sockimpl{};
 	registerClasses();
 	
 

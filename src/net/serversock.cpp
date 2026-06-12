@@ -1,16 +1,16 @@
 #include "net/serversock.h"
 
-AmthSocket::ServerSocket::ServerSocket()
+Celeris::ServerSocket::ServerSocket()
 {
 }
 
-AmthSocket::ServerSocket::~ServerSocket() noexcept
+Celeris::ServerSocket::~ServerSocket() noexcept
 {
 }
 
 
 //ip_addr is the ip address of the server and looks like "127.0.0.1"
-void AmthSocket::ServerSocket::listenforConnections(CleanSocket* tcpSocketIPV4, const char ip_addr[], u_int port) {
+void Celeris::ServerSocket::listenforConnections(CleanSocket* tcpSocketIPV4, const char ip_addr[], u_int port) {
 
 	sockaddr_in hint{};
 	hint.sin_family = AF_INET;
@@ -37,7 +37,7 @@ void AmthSocket::ServerSocket::listenforConnections(CleanSocket* tcpSocketIPV4, 
 	}
 }
 
-SOCKET AmthSocket::ServerSocket::acceptConnection(CleanSocket* tcpSocketIPV4) {
+SOCKET Celeris::ServerSocket::acceptConnection(CleanSocket* tcpSocketIPV4) {
 	sockaddr_in client{};
 	int clientSize = sizeof(client);
 
@@ -51,7 +51,7 @@ SOCKET AmthSocket::ServerSocket::acceptConnection(CleanSocket* tcpSocketIPV4) {
 	return clientSocket;
 }
 
-std::string AmthSocket::ServerSocket::receiveData(SOCKET clientSocket) {
+std::string Celeris::ServerSocket::receiveData(SOCKET clientSocket) {
 	char buf[4096];
 	ZeroMemory(buf, 4096);
 
@@ -64,7 +64,7 @@ std::string AmthSocket::ServerSocket::receiveData(SOCKET clientSocket) {
 	return std::string(buf, 0, bytesReceived);
 }
 
-void AmthSocket::ServerSocket::sendData(SOCKET& clientSocket, const char data[]) {
+void Celeris::ServerSocket::sendData(SOCKET& clientSocket, const char data[]) {
 	int sendData = send(clientSocket, data, static_cast<int>(strlen(data)) + 1, 0);//add 1 to the length to include the null terminator
 	if (sendData == SOCKET_ERROR) {
 		throw std::system_error(WSAGetLastError(), std::system_category());
@@ -74,7 +74,7 @@ void AmthSocket::ServerSocket::sendData(SOCKET& clientSocket, const char data[])
 
 }
 
-std::string AmthSocket::ServerSocket::getClientIp(SOCKET clientSocket) {
+std::string Celeris::ServerSocket::getClientIp(SOCKET clientSocket) {
 	sockaddr_in clientAddr;
 	int addrLen = sizeof(clientAddr);
 	if (getpeername(clientSocket, (sockaddr*)&clientAddr, &addrLen) == 0) {
@@ -85,7 +85,7 @@ std::string AmthSocket::ServerSocket::getClientIp(SOCKET clientSocket) {
 	return "";
 }
 
-int AmthSocket::ServerSocket::inet_pton(int af, const char* src, void* dst)
+int Celeris::ServerSocket::inet_pton(int af, const char* src, void* dst)
 {
 	struct sockaddr_storage ss;
 	int size = sizeof(ss);
@@ -109,7 +109,7 @@ int AmthSocket::ServerSocket::inet_pton(int af, const char* src, void* dst)
 	return 0;
 }
 
-const char* AmthSocket::ServerSocket::inet_ntop(int af, const void* src, char* dst, socklen_t size)
+const char* Celeris::ServerSocket::inet_ntop(int af, const void* src, char* dst, socklen_t size)
 {
 	struct sockaddr_storage ss;
 	unsigned long s = size;

@@ -19,7 +19,7 @@
 #include "platform/platform.h"
 
 
-namespace AmthSocket {
+namespace Celeris {
 
 
 	class SocketImpl

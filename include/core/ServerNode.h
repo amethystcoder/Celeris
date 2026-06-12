@@ -35,7 +35,7 @@ private:
 	//so that we can use the socket class in the server class
 	//without it having to know the details of the socket class and so it doesn't throw exceptions again
 	CleanSocket* cleanSocket;
-	AmthSocket::ServerSocket serverSock;
+	Celeris::ServerSocket serverSock;
 	unsigned int port = 8080;
 	const char* address = "127.0.0.1";
 

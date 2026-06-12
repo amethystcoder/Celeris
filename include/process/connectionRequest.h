@@ -104,7 +104,7 @@ private:
     HTTPHeaderMap headers;
     std::string route;
 	std::string requestMethod;
-    AmthSocket::ServerSocket serverSock{};
+    Celeris::ServerSocket serverSock{};
     std::string content;
 };
 

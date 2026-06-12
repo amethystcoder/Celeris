@@ -6,7 +6,7 @@
 #include <system_error>
 #include "cleansocket.h"
 
-namespace AmthSocket
+namespace Celeris
 {
 	class ServerSocket
 	{

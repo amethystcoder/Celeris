@@ -4,7 +4,7 @@
 #include <string>
 #include "cleansocket.h"
 
-namespace AmthSocket
+namespace Celeris
 {
 	class ClientSocket
 	{

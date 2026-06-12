@@ -4,7 +4,7 @@ ServerNode::ServerNode()
 {
 	this->port = 8080;
 	this->cleanSocket = new CleanSocket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	this->serverSock = AmthSocket::ServerSocket();
+	this->serverSock = Celeris::ServerSocket();
 }
 
 ServerNode::~ServerNode()

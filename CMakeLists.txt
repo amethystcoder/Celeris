@@ -1,12 +1,15 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(Celeris LANGUAGES CXX)
+project(Celeris VERSION 1.0.0 LANGUAGES CXX)
+
+#include(CTest)
+#include(GoogleTest)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_executable(Celeris
+add_executable(Celeris 
     src/main.cpp
 
     # ast
@@ -25,6 +28,7 @@ add_executable(Celeris
     src/core/ServerNode.cpp
     src/core/storeNode.cpp
     src/core/taskNode.cpp
+    src/core/ifNode.cpp
 
     # db
     src/db/databaseCon.cpp
@@ -53,21 +57,17 @@ add_executable(Celeris
 
     # util/decisions
     src/util/decisions/decNode.cpp
-    src/util/decisions/ifDecTree.cpp
- "src/core/ifNode.cpp" "include/core/ifNode.h")
+    src/util/decisions/ifDecTree.cpp)
+
 
 target_include_directories(Celeris PRIVATE
     ${CMAKE_SOURCE_DIR}/include
 )
 
-# Platform-specific linking
-if(WIN32)
-    target_link_libraries(Celeris PRIVATE ws2_32 psapi)
-elseif(UNIX AND NOT APPLE)
-    target_link_libraries(Celeris PRIVATE pthread)
-elseif(APPLE)
-    target_link_libraries(Celeris PRIVATE pthread)
-endif()
+# tests
+enable_testing()
+add_subdirectory(tests)
+# target_link_libraries(${PROJECT_NAME} celeris_test)
 
 # Compiler warnings
 if(MSVC)

@@ -1,13 +1,13 @@
 #include "net/clientsock.h"
 
-AmthSocket::ClientSocket::~ClientSocket() noexcept
+Celeris::ClientSocket::~ClientSocket() noexcept
 {
 }
-AmthSocket::ClientSocket::ClientSocket()
+Celeris::ClientSocket::ClientSocket()
 {
 }
 
-std::string AmthSocket::ClientSocket::sendGetRequestWithSocket(CleanSocket* tcpSocketIPV4, char origin[]) {
+std::string Celeris::ClientSocket::sendGetRequestWithSocket(CleanSocket* tcpSocketIPV4, char origin[]) {
 	addrinfo hints{};
 
 	hints.ai_family = AF_INET;
