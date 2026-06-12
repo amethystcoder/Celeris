@@ -2,6 +2,7 @@
 #define CLIENTSOCK_H
 
 #include <string>
+#include <string.h>
 #include "cleansocket.h"
 
 namespace Celeris

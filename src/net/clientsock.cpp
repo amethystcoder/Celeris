@@ -32,8 +32,8 @@ std::string Celeris::ClientSocket::sendGetRequestWithSocket(CleanSocket* tcpSock
 	connect(tcpSocketIPV4->Get(), reinterpret_cast<const sockaddr*>(&Address), sizeof(Address));
 
 	char request[1024] = "GET / HTTP/1.1\r\n";
-	strcat_s(request, origin);
-	strcat_s(request, "Connection: close\r\nUser-Agent:TestAgent\r\n\r\n");
+	strcat_s(request, sizeof(request), origin);
+	strcat_s(request, sizeof(request), "Connection: close\r\nUser-Agent:TestAgent\r\n\r\n");
 
 	send(tcpSocketIPV4->Get(), request, sizeof(request), 0);
 
