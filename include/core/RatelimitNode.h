@@ -9,7 +9,6 @@
 #include "../ast/ast_manager.h"
 #include <mutex>
 
-
 class RateLimitNode : public ASTreeNode
 {
 public:
@@ -24,19 +23,25 @@ public:
 
 	void removeIpaddress(std::string& ip_address);
 
-	//void StartSynchronousLimiting();
-
 	bool isRateLimited(const std::string& ip_address);
 
 	int getIpAttempts(const std::string& ip_address);
 
-	//void startCentralResetThread();
+	bool leaky_bucket();
 
-	//void startCentralResetThread();
+	bool token_bucket();
+
+	bool sliding_window();
+
+	bool fixed_window();
 
 private:
+
+	struct RTConnection {};
+
 	std::string time;
-	unsigned short int rate;
+	unsigned short rate;
+	unsigned long bf_size{0};
 
 	std::mutex attempts_mutex;
 
