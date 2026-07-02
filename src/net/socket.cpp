@@ -101,7 +101,7 @@ inline bool Celeris::SocketImpl::isInitialized() const noexcept {
 inline const WSADATA& Celeris::SocketImpl::getWSAData() const noexcept {
 	return WSAdata;
 }
-#elif PLATFORM_POSIX
+#else
 inline void Celeris::SocketImpl::getWSAData() const noexcept {
 	// No-op on POSIX systems
 }
