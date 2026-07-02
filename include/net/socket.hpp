@@ -54,6 +54,10 @@ namespace Celeris {
 
 #if PLATFORM_WINDOWS
 		inline const WSADATA& getWSAData() const noexcept;
+		//some windows socket implementations and libraries do not have this
+		//so this would be included for windows
+		static int inet_pton(int af, const char* src, void* dst);
+		static const char* inet_ntop(int af, const void* src, char* dst, socklen_t size);
 #else
 		//in the case that there is code somewhere that relies on this method.
 		//there should not be, but in the case that there is.

@@ -78,10 +78,17 @@ bool RateLimitNode::leaky_bucket(){
 	//find the max amount for the bucket
 	
 	//static std::array<std::unique_ptr<RTConnection>> buffer;
+	return true;
 }
 
-bool RateLimitNode::token_bucket(){}
+bool RateLimitNode::token_bucket(){
+	return true;
+}
 
-bool RateLimitNode::sliding_window(){}
+bool RateLimitNode::sliding_window(){
+	return true;
+}
 
-bool RateLimitNode::fixed_window(){}
+bool RateLimitNode::fixed_window(){
+	return true;
+}
