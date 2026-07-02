@@ -102,7 +102,7 @@ inline const WSADATA& Celeris::SocketImpl::getWSAData() const noexcept {
 	return WSAdata;
 }
 #elif PLATFORM_POSIX
-inline void AmthSocket::SocketImpl::getWSAData() const noexcept {
+inline void Celeris::SocketImpl::getWSAData() const noexcept {
 	// No-op on POSIX systems
 }
 #endif
