@@ -21,8 +21,11 @@ public:
 
     ~CleanSocket() noexcept;
 
-    private:
-        SOCKET cleanSocket = { INVALID_SOCKET };
+private:
+    //Note that for unix and posix systems SOCKET and cleanSocket is a file descriptor (int)
+    //Note that for windows systems, it is a pointer (unsigned int 64)
+    //SOCKET is compatible with both here (check platform.h)
+    SOCKET cleanSocket = { INVALID_SOCKET };
 };
 
 //should be able to handle other forms of connection

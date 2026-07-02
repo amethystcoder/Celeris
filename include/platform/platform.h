@@ -35,6 +35,7 @@
     #include <fcntl.h>
     #include <netdb.h>
     #include <errno.h> 
+    #include <cstring>
     // Define Windows-compatible types for POSIX
     typedef int SOCKET;
     const int INVALID_SOCKET = -1;

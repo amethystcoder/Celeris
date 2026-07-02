@@ -53,16 +53,20 @@ void Celeris::ServerSocket::listenforConnections(CleanSocket* tcpSocketIPV4, con
 
 SOCKET Celeris::ServerSocket::acceptConnection(CleanSocket* tcpSocketIPV4) {
 	sockaddr_in client{};
+#if PLATFORM_WINDOWS
 	int clientSize = sizeof(client);
-
-	SOCKET clientSocket = accept(tcpSocketIPV4->Get(), reinterpret_cast<sockaddr*>(&client), &clientSize);
+#else
+	socklen_t clientSize = sizeof(client);
+#endif
 
 #if PLATFORM_WINDOWS
+	SOCKET clientSocket = accept(tcpSocketIPV4->Get(), reinterpret_cast<sockaddr*>(&client), &clientSize);
 	if (clientSocket == INVALID_SOCKET) {
 		throw std::system_error(WSAGetLastError(), std::system_category());
 	}
 #else
 	//posix systems 
+	SOCKET clientSocket = accept(tcpSocketIPV4->Get(), reinterpret_cast<sockaddr*>(&client), &clientSize);
 	if (clientSocket < 0) {
 		//determine error type
 		perror("Failed to send");
@@ -107,21 +111,26 @@ void Celeris::ServerSocket::sendData(SOCKET& clientSocket, const char data[]) {
 	if (sendData == SOCKET_ERROR) {
 		throw std::system_error(WSAGetLastError(), std::system_category());
 	}
+	//Sleep(1000); //check for why this was included
+	shutdown(clientSocket, SD_SEND);  //shutdown the sending side of the socket
 #else
 	//posix systems 
 	if (sendData < 0) {
 		//determine error type
 		perror("Failed to send");
 	}
-#endif // 0
 	//Sleep(1000); //check for why this was included
-	shutdown(clientSocket, SD_SEND);  //shutdown the sending side of the socket
-
+	shutdown(clientSocket, SHUT_RDWR);  //shutdown the sending side of the socket
+#endif // 0
 }
 
 std::string Celeris::ServerSocket::getClientIp(SOCKET clientSocket) {
 	sockaddr_in clientAddr;
+#if PLATFORM_WINDOWS
 	int addrLen = sizeof(clientAddr);
+#else
+	socklen_t addrLen = sizeof(clientAddr);
+#endif
 	if (getpeername(clientSocket, (sockaddr*)&clientAddr, &addrLen) == 0) {
 		char ipStr[INET_ADDRSTRLEN];
 #if PLATFORM_WINDOWS

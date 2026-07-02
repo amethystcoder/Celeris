@@ -3,9 +3,15 @@
 
 CleanSocket::CleanSocket(int address_family, int sockettype, int protocol) {
 	cleanSocket = socket(address_family, sockettype, protocol);
+#if PLATFORM_WINDOWS
 	if (cleanSocket == INVALID_SOCKET) {
 		throw std::system_error(WSAGetLastError(), std::system_category());
 	}
+#else 
+	if (cleanSocket == INVALID_SOCKET) {
+		throw std::system_error(errno, std::system_category());
+	}
+#endif
 }
 
 SOCKET CleanSocket::Get() const noexcept {
