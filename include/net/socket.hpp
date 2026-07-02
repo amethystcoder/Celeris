@@ -61,7 +61,7 @@ namespace Celeris {
 #else
 		//in the case that there is code somewhere that relies on this method.
 		//there should not be, but in the case that there is.
-		inline void getWSAData() const noexcept {}
+		inline void getWSAData() const noexcept;
 #endif
 
 		void handleStartupError(int errorcode);
