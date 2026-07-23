@@ -89,9 +89,9 @@ std::string Celeris::ServerSocket::receiveData(SOCKET clientSocket) { //we do no
 	memset(buf, 0, (sizeof(char) * 4096));
 #endif
 
-	ssize_t bytesReceived = 0;
+	int bytesReceived = 0;
 	do {
-		bytesReceived = recv(clientSocket, buf, 4096, 0);
+		bytesReceived = static_cast<int>(recv(clientSocket, buf, 4096, 0));
 		data.append(buf, bytesReceived);
 	} while (bytesReceived >= 4096);
 
