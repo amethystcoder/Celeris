@@ -4,7 +4,6 @@
 
 FileParser::FileParser(const char* filename)
 {
-  std::cout << "got to here\n";
 	fileRead.open(filename, std::ios::binary | std::ios::ate);
 	if (fileRead.fail()) return;
 
@@ -41,7 +40,7 @@ bool FileParser::check_is_file(const std::string& filename) {
 std::map<std::string, std::string> FileParser::parseAttributes(const std::string& input) {
     std::map<std::string, std::string> result;
 
-	size_t pos{ 0 };
+	  size_t pos{ 0 };
     const size_t len = input.size();
 
     while (pos < len) {
@@ -121,9 +120,13 @@ std::vector<std::string> FileParser::splitString(const std::string& str, char de
 }
 
 TagDataList FileParser::parse_html_content(std::string& html_text) {
-  std::cout << "parsing html content\n";
 	html_text.erase(std::remove(html_text.begin(), html_text.end(), '\r'), html_text.end());
 	html_text.erase(std::remove(html_text.begin(), html_text.end(), '\n'), html_text.end());
+  /*
+   * why not use:
+   * std::erase(html_text, '\r')
+   * std::erase(html_text, '\n')
+   * */
 
 	std::stringstream ss(html_text);
 	TagDataList tag_list;
@@ -217,7 +220,7 @@ TagDataList FileParser::parse_html_content(std::string& html_text) {
 			// Handle content only if not self-closing
 			if (!isSelfClosing) {
 				content.clear();
-				std::string endTagName = tagData.tag;
+		 		std::string endTagName = tagData.tag;
 
 				while (ss.get(c)) {
 					if (c == OPENING_TAG && ss.peek() == '/') {

@@ -22,7 +22,7 @@ public:
 
 	bool attachProcess(ProcessEntry* process) noexcept;
 
-	void beginprocess();
+	void beginProcess();
 
 	void printProcesses() const noexcept;
 

@@ -12,11 +12,12 @@ ServerNode::~ServerNode()
 	delete this->cleanSocket;
 }
 
-void ServerNode::registernode(const std::string& name, const std::string& attributes, std::string& content)
+void ServerNode::registernode(const std::string& name, const std::string& attributes, std::string& content) // must add override for proper c++
 {
 	addTagName(name, this);
 	setNodeAttributes(ASTManager::parseattributes(attributes), this);
-	ASTManager::addNodeChildrenFromContent(content, this);
+	ASTManager::addNodeChildrenFromContent(content, this); // right here is where the children are added
+                                                         // need to go into here to set dependencies
 	this->setPort(this->nodeAttributes["port"]);
 	this->serverSock.listenforConnections(this->cleanSocket, this->address, this->port);//start up the server immediately
 }
@@ -61,7 +62,6 @@ ProcessEntry* ServerNode::getattachable(NodeDependencies& dependencyList)
 		conReq.setRoute(headers["path"]);
 		conReq.setRequestMethod(headers["method"]);
 		conReq.setContent(HTTPTextParser::GetRequestBody(request_data));
-    std::cout << request_data << std::endl;
 	};
 	return new ProcessEntry(this, dependencyList, process);
 }

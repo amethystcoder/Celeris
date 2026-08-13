@@ -18,6 +18,16 @@ void RateLimitNode::registernode(const std::string& name, const std::string& att
 	addTagName(name, this);
 	setNodeAttributes(ASTManager::parseattributes(attributes), this);
 	ASTManager::addNodeChildrenFromContent(content, this);
+  // parse maxRequests into rate
+  if (this->nodeAttributes.find("maxRequests") != this->nodeAttributes.end()) {
+    try {
+      this->rate = static_cast<unsigned short>(std::stoi(this->nodeAttributes["maxRequests"]));
+    } catch (...) {
+      this->rate = 100; // default if parsing fails
+    }
+  } else {
+    this->rate = 100; // default
+  }
 	//quick setup for reusable attributes
 	if (this->nodeAttributes.find("bktSize") != this->nodeAttributes.end()) {
 		this->nodeAttributes["bktSize"];

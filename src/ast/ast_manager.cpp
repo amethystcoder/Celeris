@@ -36,6 +36,7 @@ std::shared_ptr<ASTreeNode> ASTManager::buildTree(std::filesystem::path htmlPath
 			}
 			NodeDependencies transformedDependencies = ASTManager::transformNodeDependencies(serverNode->getRawDependencies());
 			serverNode->registernode(tag_data.tag, tag_data.attributes, tag_data.content);
+      serverNode->setDependencies(transformedDependencies); // need to set dependencies
 			CelProcess::getInstance().attachProcess(
 				serverNode->getattachable(transformedDependencies)
 			);
@@ -46,7 +47,7 @@ std::shared_ptr<ASTreeNode> ASTManager::buildTree(std::filesystem::path htmlPath
 }
 
 //this function needs proper error handling as well as fixing
-void ASTManager::addNodeChildrenFromContent(std::string& content, ASTreeNode* node) {
+void ASTManager::addNodeChildrenFromContent(std::string& content, ASTreeNode* node) { // sets dependencies now
 	if (!node || node == nullptr) {
 		if (ASTManager::rootNode == nullptr) {
 			return; //No root node available
@@ -71,6 +72,7 @@ void ASTManager::addNodeChildrenFromContent(std::string& content, ASTreeNode* no
 			} 
 			//ASTManager::addNodeChildrenFromContent(tag_data.content, astInstance.get());
 			NodeDependencies transformedDependencies = ASTManager::transformNodeDependencies(astInstance->getRawDependencies());
+      astInstance->setDependencies(transformedDependencies); // need to set dependencies not sure why this was not here
 			CelProcess::getInstance().attachProcess(
 				astInstance->getattachable(transformedDependencies)
 			);

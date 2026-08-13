@@ -23,6 +23,9 @@ inline void RouteNode::setParams() noexcept {
 	this->rescontenttype = this->nodeAttributes["rescontenttype"];
 	this->method = this->nodeAttributes["method"];
 	this->response = this->setEndpointContent(this->nodeAttributes["response"]);
+  if (this->nodeAttributes.find("rateLimit") != this->nodeAttributes.end()) {
+    this->rawDependencies.push_back(new RawDependency{"ratelimit", this->nodeAttributes["ratelimit"]});
+  }
 }
 
 std::string RouteNode::getFullResponse() noexcept {
@@ -46,6 +49,12 @@ std::string RouteNode::determineResponse() {
 std::string RouteNode::determineContentType() noexcept {
 	this->rescontenttype = this->nodeAttributes["rescontenttype"];
 	return "Content-Type: " + MimeTypes::getInstance().getMimeType(this->rescontenttype);
+}
+
+void RouteNode::printDependencies() const noexcept {
+  for (auto& x : rawDependencies) {
+    std::cout << x->depName << std::endl;
+  }
 }
 
 std::string RouteNode::getEndpoint() {
@@ -80,6 +89,10 @@ std::string RouteNode::setEndpointContent(const std::string& content) {
 	return filecontent;
 }
 
+std::vector<RawDependency*> RouteNode::getRawDependencies() const noexcept { // overrided from base class
+  return rawDependencies;
+}
+
 ProcessEntry* RouteNode::getattachable(NodeDependencies& dependencyList)
 {
 	RepProcess process = [this,&dependencyList]() {
@@ -88,26 +101,34 @@ ProcessEntry* RouteNode::getattachable(NodeDependencies& dependencyList)
 
 		if (conReq.getRoute() == this->getEndpoint() && conReq.getRequestMethod() == this->getMethod()) {
 
-			struct RawDependency rawdep { "server", "" };
-			ServerNode* ServerApplication = static_cast<ServerNode*>(this->getDependency(&rawdep));
-			
+			ServerNode* ServerApplication = static_cast<ServerNode*>(this->getDependency(rawDependencies.at(0)));
 			//check if the route has a rate limit
 			if (this->nodeAttributes.find("rateLimit") != this->nodeAttributes.end()) {
-				//look up the rate limit node by tag name and its 'name' attribute from the tree
-				std::string rateLimitName = this->nodeAttributes["rateLimit"];
-				std::shared_ptr<ASTreeNode> rateLimitFound = ASTManager::findNodeWithTagandName("ratelimit", rateLimitName);
-				RateLimitNode* rateLimitNode = static_cast<RateLimitNode*>(rateLimitFound.get());
+        // produces seg fault right here!!!!!
+				//we need to give a proper reference to a rate limit node in a route node by giving it a more appropriate attribute
+				struct RawDependency rateLimitDep { "ratelimit", this->nodeAttributes["rateLimit"] };
+        RouteNode::printDependencies();
+				RateLimitNode* rateLimitNode = static_cast<RateLimitNode*>(this->getDependency(&rateLimitDep));
 
+        //fix
+        /* look up rateLimit node by tag name and its attrib from AST
+         * std::string rateLimitName = this->nodeAttributes["rateLimit"];
+         * std::shared_ptr<ASTreeNode> rateLimitFound = ASTManager::findNodeWithTagandName("ratelimit", rateLimitName);
+         * RateLimitNode* rateLimitNode = static_cast<RateLimitNode*>(rateLimitFound.get());
+         *
+         * */
 				if (rateLimitNode == nullptr) {
 					ServerApplication->sendResponse("HTTP/1.1 500 Internal Server Error\nContent-Type: text/html\n\n<html><body><h1>500 Internal Server Error</h1></body></html>");
-					return;
+          return; // fixed seg fault remove it and it will cause
+				  //continue; use return
 				}
 				rateLimitNode->addNewIpaddress(conReq.getIpAddress());
 
 				if (rateLimitNode->isRateLimited(conReq.getIpAddress())) {
 					//response to the client if the ip address is in the rate limit
 					ServerApplication->sendResponse("HTTP/1.1 429 Too Many Requests\nContent-Type: text/html\n\n<html><body><h1>429 Too Many Requests</h1></body></html>");
-					return;
+          return; //fixed seg fault remove it and it will cause
+					// continue; use return
 				}
 			}
 			//Send the response

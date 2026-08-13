@@ -20,7 +20,6 @@
 #include "ast/ast_manager.h"
 #include "util/logger.h"
 
-
 // Helper function to register classes
 static void registerClasses() {
 	ASTNodeFactory::getInstance().registerClass("server", []() { return std::make_shared<ServerNode>(); });
@@ -70,5 +69,5 @@ int main(int argc, char** argv) {
 
 	std::cout << "Starting server..." << std::endl;
 
-	CelProcess::getInstance().beginprocess();
+	CelProcess::getInstance().beginProcess();
 }

@@ -11,7 +11,7 @@ bool CelProcess::attachProcess(ProcessEntry* process) noexcept
 }
 
 //the process: this is a loop that runs the repeatables of each node in the AST
-void CelProcess::beginprocess()
+void CelProcess::beginProcess()
 {
 	while (true)
 	{

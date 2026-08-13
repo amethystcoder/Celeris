@@ -58,6 +58,8 @@ public:
 
 	virtual void registernode(const std::string& name, const std::string& attributes, std::string& content);
 
+  void setDependencies(const NodeDependencies& deps) noexcept;
+
 	void RemoveChild(std::shared_ptr<ASTreeNode> child);
 
 	virtual NodeChildren GetChildren();
@@ -75,6 +77,7 @@ public:
 	ASTreeNode* getParent() const noexcept;
 
 
+  NodeDependencies getDependencies() const noexcept;
 	//attachable is a function that is called during the processs
 	//a process is a loop that runs during the lifetime of the application
 	//the loop checks all the nodes for their 'attachables' and runs each of them
