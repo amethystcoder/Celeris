@@ -61,6 +61,7 @@ ProcessEntry* ServerNode::getattachable(NodeDependencies& dependencyList)
 		conReq.setRoute(headers["path"]);
 		conReq.setRequestMethod(headers["method"]);
 		conReq.setContent(HTTPTextParser::GetRequestBody(request_data));
+    std::cout << request_data << std::endl;
 	};
 	return new ProcessEntry(this, dependencyList, process);
 }

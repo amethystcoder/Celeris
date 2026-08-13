@@ -103,7 +103,7 @@ private:
     SOCKET socket;
     HTTPHeaderMap headers;
     std::string route;
-	std::string requestMethod;
+	  std::string requestMethod;
     Celeris::ServerSocket serverSock{};
     std::string content;
 };

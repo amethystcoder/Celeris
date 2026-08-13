@@ -93,19 +93,21 @@ ProcessEntry* RouteNode::getattachable(NodeDependencies& dependencyList)
 			
 			//check if the route has a rate limit
 			if (this->nodeAttributes.find("rateLimit") != this->nodeAttributes.end()) {
-				//we need to give a proper reference to a rate limit node in a route node by giving it a more appropriate attribute
-				struct RawDependency rateLimitDep { "ratelimit", this->nodeAttributes["rateLimit"] };
-				RateLimitNode* rateLimitNode = static_cast<RateLimitNode*>(this->getDependency(&rateLimitDep));
+				//look up the rate limit node by tag name and its 'name' attribute from the tree
+				std::string rateLimitName = this->nodeAttributes["rateLimit"];
+				std::shared_ptr<ASTreeNode> rateLimitFound = ASTManager::findNodeWithTagandName("ratelimit", rateLimitName);
+				RateLimitNode* rateLimitNode = static_cast<RateLimitNode*>(rateLimitFound.get());
+
 				if (rateLimitNode == nullptr) {
 					ServerApplication->sendResponse("HTTP/1.1 500 Internal Server Error\nContent-Type: text/html\n\n<html><body><h1>500 Internal Server Error</h1></body></html>");
-					//continue;
+					return;
 				}
 				rateLimitNode->addNewIpaddress(conReq.getIpAddress());
 
 				if (rateLimitNode->isRateLimited(conReq.getIpAddress())) {
 					//response to the client if the ip address is in the rate limit
 					ServerApplication->sendResponse("HTTP/1.1 429 Too Many Requests\nContent-Type: text/html\n\n<html><body><h1>429 Too Many Requests</h1></body></html>");
-					//continue;
+					return;
 				}
 			}
 			//Send the response

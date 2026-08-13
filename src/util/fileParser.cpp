@@ -4,6 +4,7 @@
 
 FileParser::FileParser(const char* filename)
 {
+  std::cout << "got to here\n";
 	fileRead.open(filename, std::ios::binary | std::ios::ate);
 	if (fileRead.fail()) return;
 
@@ -120,6 +121,7 @@ std::vector<std::string> FileParser::splitString(const std::string& str, char de
 }
 
 TagDataList FileParser::parse_html_content(std::string& html_text) {
+  std::cout << "parsing html content\n";
 	html_text.erase(std::remove(html_text.begin(), html_text.end(), '\r'), html_text.end());
 	html_text.erase(std::remove(html_text.begin(), html_text.end(), '\n'), html_text.end());
 

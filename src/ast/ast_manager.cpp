@@ -53,6 +53,7 @@ void ASTManager::addNodeChildrenFromContent(std::string& content, ASTreeNode* no
 		}
 		node = ASTManager::rootNode.get(); //Start from the root node if no start node is provided
 	}
+
 	TagDataList parsed_content = FileParser::parse_html_content(content);
 
 	for (auto& tag_data : parsed_content) {
