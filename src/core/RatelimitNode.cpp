@@ -2,6 +2,7 @@
 #include <iostream>
 
 using namespace std::literals::chrono_literals;
+using namespace Celeris::Utilities;
 
 RateLimitNode::RateLimitNode()
 	: rate{ 0 }
@@ -68,27 +69,16 @@ bool RateLimitNode::isRateLimited(const std::string& ip_address){
 	return false;
 }
 
-/// <summary>
-/// The leaky bucket algorithm creates a buffer that checks for requests adds them to the bucket, 
-/// else it flushes the request off if it is full
-/// 
-/// </summary>
-/// <returns> bool </returns>
-bool RateLimitNode::leaky_bucket(){
-	//find the max amount for the bucket
-	
-	//static std::array<std::unique_ptr<RTConnection>> buffer;
-	return true;
-}
 
-bool RateLimitNode::token_bucket(){
-	return true;
-}
 
-bool RateLimitNode::sliding_window(){
-	return true;
-}
 
-bool RateLimitNode::fixed_window(){
+//////////////////////////////////////////////////////////////////
+// Implementations for ratelimiting types determined by the `type` attribute
+// 
+//////////////////////////////////////////////////////////////////
+bool LeakyBucket::add_connection_to_bucket(const ConnectionRequest& connection) {
+	if (requests.size() == max_size) return false;
+
+	requests.push_back(connection);
 	return true;
 }
