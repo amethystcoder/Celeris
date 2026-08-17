@@ -80,9 +80,7 @@ SOCKET Celeris::ServerSocket::acceptConnection(CleanSocket* tcpSocketIPV4) {
 
 std::string Celeris::ServerSocket::receiveData(SOCKET clientSocket) { //we do not use a clean socket here?
 	char buf[4096];
-	std::string concatBuf{};
-	short bytesReceived{ 0 };
-	int totalBytesReceived{ 0 };
+	std::string data;
 
 #if PLATFORM_WINDOWS
 	ZeroMemory(buf, (sizeof(char) * 4096));
@@ -91,12 +89,12 @@ std::string Celeris::ServerSocket::receiveData(SOCKET clientSocket) { //we do no
 	memset(buf, 0, (sizeof(char) * 4096));
 #endif
 
-	while ((bytesReceived = recv(clientSocket, buf, 4096, 0)) > 0)
-	{
-		totalBytesReceived += bytesReceived;
-		concatBuf += buf; //TODO: possible heap allocation... work on a better way here
-	}
-	
+	int bytesReceived = 0;
+	do {
+		bytesReceived = static_cast<int>(recv(clientSocket, buf, 4096, 0));
+		data.append(buf, bytesReceived);
+	} while (bytesReceived >= 4096);
+
 #if PLATFORM_WINDOWS
 	if (bytesReceived == SOCKET_ERROR) {
 		throw std::system_error(WSAGetLastError(), std::system_category());
@@ -110,7 +108,7 @@ std::string Celeris::ServerSocket::receiveData(SOCKET clientSocket) { //we do no
 	}
 #endif // 0
 
-	return concatBuf;
+	return data;
 }
 
 void Celeris::ServerSocket::sendData(SOCKET& clientSocket, const char data[]) {
