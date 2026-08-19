@@ -8,47 +8,8 @@
 #include "../ast/ast.h"
 #include "../ast/ast_manager.h"
 #include <mutex>
-#include <deque>
+//#include <deque>
 
-namespace Celeris::Utilities {
-
-	using Request = unsigned long;
-	struct LeakyBucket {
-
-		//determine the type of info the token bucket would receive
-		//a leaky bucket would have a buffer
-		//a buffer of 
-		LeakyBucket(const int max_size)
-			: requests({}), max_size(max_size)
-		{}
-
-		//todo: connection request must be in the namespace
-		/////////////////////////////////
-		// creates a unique identifier for a request
-		long assign_request(ConnectionRequest connection);
-
-		//adds a connection to the bucket. returns false if addition failed
-		bool add_connection_to_bucket(const ConnectionRequest& connection);
-
-	protected:
-		std::deque<ConnectionRequest> requests;
-
-		int max_size;
-	};
-
-	struct TokenBucket {
-		TokenBucket(const unsigned int size)
-			: size(size)
-		{
-		}
-
-		int size;
-	};
-
-	struct SlidingWindow {
-
-	};
-};
 
 class RateLimitNode : public ASTreeNode
 {
@@ -68,13 +29,13 @@ public:
 
 	int getIpAttempts(const std::string& ip_address);
 
-	bool leaky_bucket();
+	//bool leaky_bucket();
 
-	bool token_bucket();
+	//bool token_bucket();
 
-	bool sliding_window();
+	//bool sliding_window();
 
-	bool fixed_window();
+	//bool fixed_window();
 
 private:
 

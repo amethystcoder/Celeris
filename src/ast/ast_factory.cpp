@@ -6,7 +6,7 @@ ASTNodeFactory& ASTNodeFactory::getInstance() {
     return instance;
 }
 
-void ASTNodeFactory::registerClass(const std::string& name, const CreatorFunc creator) {
+void ASTNodeFactory::registerClass(const std::string& name, CreatorFunc creator) {
     registry[name] = std::move(creator);
 }
 

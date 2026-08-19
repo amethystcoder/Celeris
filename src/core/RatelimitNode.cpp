@@ -2,7 +2,7 @@
 #include <iostream>
 
 using namespace std::literals::chrono_literals;
-using namespace Celeris::Utilities;
+//using namespace Celeris::Utilities;
 
 RateLimitNode::RateLimitNode()
 	: rate{ 0 }
@@ -72,13 +72,3 @@ bool RateLimitNode::isRateLimited(const std::string& ip_address){
 
 
 
-//////////////////////////////////////////////////////////////////
-// Implementations for ratelimiting types determined by the `type` attribute
-// 
-//////////////////////////////////////////////////////////////////
-bool LeakyBucket::add_connection_to_bucket(const ConnectionRequest& connection) {
-	if (requests.size() == max_size) return false;
-
-	requests.push_back(connection);
-	return true;
-}

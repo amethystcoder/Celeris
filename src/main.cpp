@@ -60,6 +60,7 @@ int main(int argc, char** argv) {
 
 	std::filesystem::path htmlPath = currentPath / html_text;
 
+	//TODO: check for if it does not find the file at the target location
 	[[maybe_unused]]auto rootNode = ASTManager::getInstance().buildTree(htmlPath);
 	std::cout << "Built Tree..." << std::endl;
 
