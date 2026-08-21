@@ -2,7 +2,7 @@
 
     <store typeof="int" name="usercounter" initcontent="0"/>
 
-    <ratelimit maxRequests='100' per='60s' name='someratelimitname' message="rate limiter is created... or something"/>
+    <ratelimit maxRequests='1' per='3s' name='someratelimitname' message="rate limiter is created... or something"/>
     <filesystem name='thefilesys' path='/' />
     <api>
         <if expr="store.usercounter.content == 10">
