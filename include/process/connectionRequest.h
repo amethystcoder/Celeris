@@ -8,7 +8,6 @@
 class ConnectionRequest
 {
 public:
-    //delete copy constructor and assignment operator to enforce singleton
     ConnectionRequest(const ConnectionRequest&) = delete;
     ConnectionRequest& operator=(const ConnectionRequest&) = delete;
 
@@ -99,13 +98,13 @@ private:
 
     mutable std::mutex mutex;
 
-    std::string ipAddress;
-    SOCKET socket;
+    std::string ipAddress{ "" };
+    SOCKET socket{ INVALID_SOCKET };
     HTTPHeaderMap headers;
-    std::string route;
-	  std::string requestMethod;
+    std::string route{ "" };
+    std::string requestMethod{ "" };
     Celeris::ServerSocket serverSock{};
-    std::string content;
+    std::string content{ "" };
 };
 
 #endif // !CONNECTIONREQUEST_H

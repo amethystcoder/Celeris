@@ -3,6 +3,7 @@
 #include <ctime>
 
 using namespace std::literals::chrono_literals;
+//using namespace Celeris::Utilities;
 
 // returns the current unix time in seconds
 static uint64_t now_seconds() {
@@ -116,26 +117,8 @@ bool RateLimitNode::isRateLimited(const std::string& ip_address){
 	return it->second.first > this->rate;
 }
 
-/// <summary>
-/// The leaky bucket algorithm creates a buffer that checks for requests adds them to the bucket, 
-/// else it flushes the request off if it is full
-/// 
-/// </summary>
-/// <returns> bool </returns>
-bool RateLimitNode::leaky_bucket(){
-	//find the max amount for the bucket
-	
-	//static std::array<std::unique_ptr<RTConnection>> buffer;
-	return true;
-}
 
-bool RateLimitNode::token_bucket(){
-	return true;
-}
 
-bool RateLimitNode::sliding_window(){
-	return true;
-}
 
 bool RateLimitNode::fixed_window(){
 	return true;

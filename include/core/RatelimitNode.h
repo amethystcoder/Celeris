@@ -8,6 +8,8 @@
 #include "../ast/ast.h"
 #include "../ast/ast_manager.h"
 #include <mutex>
+//#include <deque>
+
 
 class RateLimitNode : public ASTreeNode
 {
@@ -27,13 +29,13 @@ public:
 
 	int getIpAttempts(const std::string& ip_address);
 
-	bool leaky_bucket();
+	//bool leaky_bucket();
 
-	bool token_bucket();
+	//bool token_bucket();
 
-	bool sliding_window();
+	//bool sliding_window();
 
-	bool fixed_window();
+	//bool fixed_window();
 
 private:
 
