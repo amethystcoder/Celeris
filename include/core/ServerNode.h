@@ -11,13 +11,14 @@
 #include "../process/connectionRequest.h"
 #include "RatelimitNode.h"
 
+
 class ServerNode : public ASTreeNode
 {
 public:
 	ServerNode();
 	~ServerNode();
 
-	void registernode(const std::string& name, const std::string& attributes, std::string& content);
+	void registernode(const std::string& name, const std::string& attributes, std::string& content) override;
 
 	//this would or should not throw any execptions
 	//it would return false if the port is not a number

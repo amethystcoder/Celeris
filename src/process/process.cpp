@@ -11,13 +11,13 @@ bool CelProcess::attachProcess(ProcessEntry* process) noexcept
 }
 
 //the process: this is a loop that runs the repeatables of each node in the AST
-void CelProcess::beginprocess()
+void CelProcess::beginProcess()
 {
 	while (true)
 	{
 		for (auto& repeatable : processNodes) {
 			//TODO: check the node later for order/priority of execution
-			repeatable->process(); //we will set the process to take the dependencies as an argument later
+			(*repeatable).process(); //we will set the process to take the dependencies as an argument later
 		}
 	}
 	return;
@@ -25,7 +25,7 @@ void CelProcess::beginprocess()
 
 void CelProcess::printProcesses() const noexcept {
 	for (const auto& process : processNodes) {
-		std::cout << "Process: " << process->node->getTagName() << std::endl;
+		std::cout << "Process: " << (*process).node->getTagName() << std::endl;
 	}
 }
 

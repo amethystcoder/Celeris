@@ -44,6 +44,7 @@ private:
 	std::string time;
 	unsigned short rate;
 	unsigned long bf_size{0};
+	unsigned long window_seconds{60}; //fixed-window length in seconds, parsed from `per`
 
 	std::mutex attempts_mutex;
 

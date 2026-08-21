@@ -22,7 +22,7 @@ public:
 
 	bool attachProcess(ProcessEntry* process) noexcept;
 
-	void beginprocess();
+	void beginProcess();
 
 	void printProcesses() const noexcept;
 
@@ -34,7 +34,7 @@ public:
 
 private:
 	//AstreeNode* | a list of the nodes dependencies
-	std::vector<ProcessEntry*> processNodes;
+	std::vector<std::unique_ptr<ProcessEntry>> processNodes;
 	
 	};
 #endif // !PROCESS_H

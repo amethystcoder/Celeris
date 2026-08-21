@@ -2,14 +2,14 @@
 
     <store typeof="int" name="usercounter" initcontent="0"/>
 
-    <ratelimit maxRequests='100' per='60s' name='someratelimitname' message="rate limiter is created... or something"/>
+    <ratelimit maxRequests='1' per='3s' name='someratelimitname' message="rate limiter is created... or something"/>
     <filesystem name='thefilesys' path='/' />
     <api>
         <if expr="store.usercounter.content == 10">
             <route endpoint='/equip' method='GET' rescontenttype='html' response='Hello, You are in the equip page!'></route>
         </if>
         <route endpoint='/name' method='GET' rescontenttype='html' response='HTMLPage.html' rateLimit='someratelimitname'></route>
-        <route endpoint='/stats' method='GET' rescontenttype='html' response='kjfdkj.html'></route>
+        <route endpoint='/stats' method='GET' rescontenttype='html' response='stats.html' rateLimit='someratelimitname'></route>
         <route endpoint='/wonder' method='GET' rescontenttype='json' response='some file.json'></route>
     </api>
 </server> 

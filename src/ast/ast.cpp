@@ -27,12 +27,19 @@ void ASTreeNode::registernode(const std::string& name, const std::string& attrib
     this->name = name;
 }
 
+void ASTreeNode::setDependencies(const NodeDependencies& deps) noexcept {
+  this->dependencies = deps;
+}
+
 void ASTreeNode::AddChild(std::shared_ptr<ASTreeNode> child)
 {
 	child.get()->parent = this; //set the parent of the child to this node
 	children.emplace_back(child);
 }
 
+NodeDependencies ASTreeNode::getDependencies() const noexcept {
+  return this->dependencies;
+}
 //remove a child from the node
 	//removal should actually never happen except in rare cases
 void ASTreeNode::RemoveChild(std::shared_ptr<ASTreeNode> child)
@@ -90,13 +97,17 @@ ProcessEntry* ASTreeNode::getattachable(NodeDependencies& dependencyList)
 	return newEntry;
 }
 
+
 //TODO: Remember to move this method to a more appropriate place
 ASTreeNode* ASTreeNode::getDependency(RawDependency* rawdep) const noexcept
 {
+  // this is the issue get dependency
 	for (const auto& dep : dependencies) {
 		if (dep->getTagName() == rawdep->depNodeName) {
+      if (rawdep->depName == "") std::cout << "empty:" << rawdep->depNodeName << std::endl;
+      else std::cout << "not empty" << std::endl;
 			if (rawdep->depName == "") return dep.get(); // Return the dependency node if it matches the node name
-			else if (rawdep->depName == dep->getTagName()) {
+			else if (rawdep->depName == dep->getAttribute("name")) { // searched for tagName when depName is "someratelimit" which is an attribute
 				return dep.get(); // Return the dependency node if it matches
 			}
 		}
@@ -105,6 +116,9 @@ ASTreeNode* ASTreeNode::getDependency(RawDependency* rawdep) const noexcept
 }
 
 std::vector<RawDependency*> ASTreeNode::getRawDependencies() const noexcept {
+  for (auto& x : rawDependencies) {
+    std::cout << x->depNodeName << ": " << x->depName << std::endl;
+  }
 	return rawDependencies; //whether dependecies are determined or not, this will return the raw dependencies
 }
 
