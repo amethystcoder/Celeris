@@ -69,13 +69,9 @@ int RateLimitNode::getIpAttempts(const std::string& ip_address)
 bool RateLimitNode::isRateLimited(const std::string& ip_address){
 	//check that `maxRequests` is exists as an attribute ... else use 100
 	if(this->nodeAttributes.find("maxRequests") != this->nodeAttributes.end())
-	if (this->ip_attempts_map.find(ip_address) != this->ip_attempts_map.end()) {
+	if (this->ip_attempts_map.find(ip_address) != this->ip_attempts_map.end()	return false;
 		//we need to keep track of the time and check if the time is within the rate limit
-		if (this->ip_attempts_map[ip_address].second >= this->rate) {
-			return true;
-		}
-	}
-	return false;
+	return this->ip_attempts_map[ip_address].first > this->rate)
 }
 
 /// <summary>

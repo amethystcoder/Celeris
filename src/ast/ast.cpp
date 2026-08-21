@@ -107,7 +107,7 @@ ASTreeNode* ASTreeNode::getDependency(RawDependency* rawdep) const noexcept
       if (rawdep->depName == "") std::cout << "empty:" << rawdep->depNodeName << std::endl;
       else std::cout << "not empty" << std::endl;
 			if (rawdep->depName == "") return dep.get(); // Return the dependency node if it matches the node name
-			else if (rawdep->depName == dep->getAttribute("name")) {
+			else if (rawdep->depName == dep->getAttribute("name")) { // searched for tagName when depName is "someratelimit" which is an attribute
 				return dep.get(); // Return the dependency node if it matches
 			}
 		}

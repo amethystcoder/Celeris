@@ -1,5 +1,5 @@
 <server port='5000' message='server is running on port {self.port}'>
-    <ratelimit maxRequests='100' per='60s' name='someratelimitname' message="rate limiter is created... or something"/>
+    <ratelimit maxRequests='25' per='60s' name='someratelimitname' message="rate limiter is created... or something"/>
     <filesystem name='thefilesys' path='/' />
     <api>
         <route endpoint='/name' method='GET' rescontenttype='html' response='HTMLPage.html' rateLimit='someratelimitname'></route>
