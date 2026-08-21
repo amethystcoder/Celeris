@@ -116,10 +116,3 @@ bool RateLimitNode::isRateLimited(const std::string& ip_address){
 	// within the window: limited once the count exceeds the allowed rate
 	return it->second.first > this->rate;
 }
-
-
-
-
-bool RateLimitNode::fixed_window(){
-	return true;
-}
