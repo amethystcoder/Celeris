@@ -3,6 +3,54 @@
 
 #include "ast/ast.h"
 
+/// //////////////////////////////////////////////
+/// Store node: Store an item dynamically sent by the server
+/// Or gotten from a database. or set by a user
+/// 
+/// Main properties (Also determined in Node Attributes)
+///	* type : the type of the object. 
+/// 
+/// * value : the value of this object that conforms to the type specified
+/// 
+/// * safe_value : if value does not conform to the data type, we can default to this value
+///				 : Note that for each type, there is a certain default value to it
+/// 
+/// 
+/// Possible Attributes (in NodeAttributes)
+/// * should : What the node should do on any type mismatch. defaults to silent
+///			 : error (Will terminal error and not add the item)
+///			 : log (Will log to the terminal and add the default item)
+///			 : silent (Will not log to the terminal and add the default item)
+/// 
+/// /////////////////////////////////////////////////
+
+namespace Celeris {
+	
+	constexpr enum class Types {
+		Integer, String, Boolean, Shape
+	};
+
+	/// //////////////////////////////////////////
+	/// Contains all utility functionality to Resolve and check Int correctness
+	/// /////////////////////////////////////////
+	struct ResolveInt {
+		constexpr bool check_type_correctness();
+	};
+
+	/// //////////////////////////////////////////
+	/// Contains all utility functionality to Resolve and check String correctness
+	/// /////////////////////////////////////////
+	struct ResolveString {
+
+	};
+
+	/// //////////////////////////////////////////
+	/// Contains all utility functionality to Resolve and check Boolean correctness
+	/// /////////////////////////////////////////
+	struct ResolveBoolean{};
+};
+
+
 class StoreNode : public ASTreeNode {
 
 public:
@@ -11,13 +59,54 @@ public:
 
 	void registernode(const std::string& name, const std::string& attributes, std::string& content);
 
-	ProcessEntry* getattachable(NodeDependencies& dependencies) override;
+	ProcessEntry* getattachable(NodeDependencies& dependencies) override = 0;
 
-	std::string* getStoreItemData(const std::string& name) noexcept;
-
-    bool storeItem(const std::string &data, const std::string &item) noexcept;
+    /// ////////////////////////////////////////////////////////////////////////
+    /// Attempts to store an item using the provided data. The function is noexcept and will not throw exceptions.
+	/// In the case that an item is provided and the type of this item does not conform with the type or shape provided,
+	/// The store node defaults to the safe type, or the type
+    /// 
+    /// <param name="item">The item to store, provided as a string.</param>
+    /// <returns>true if the item was stored successfully; false otherwise.</returns>
+	/// //////////////////////////////////////////////////////////////////////////
+    bool storeItem(const std::string &item) noexcept;
 
 private:
 	std::vector<RawDependency*> rawDependencies = {};
+
+	std::string determine_default_value();
+
+
+protected:
+
+	/// /////////////////////////////////////////////////
+	/// : The types set now would be integer (int) 
+	///		   : string (regular string)
+	///		   : boolean (true or false)
+	///		   : a shape (possible object shape data type determined by a shape specifier)
+	/// /////////////////////////////////////////////////
+	Celeris::Types store_type;
+
+	/// /////////////////////////////////////////////////
+	/// : value of the item being stored
+	///		: depending on the type set, it is usually checked on store,
+	///		: and checked before use by the different type checkers
+	///		
+	///		:: Note that for shapes, the checker would need a shape type attached
+	///		: else it would accept to any shape, even ones that are badly shaped
+	///		: an example could be wrongly formatted json, or wrongly formatted data
+	///		: on no shape attribute, this data would be given as is, effectively being a string
+	/// /////////////////////////////////////////////////
+	std::string value;
+
+	/// /////////////////////////////////////////////////
+	/// : safe default value of item being stored
+	///		: if safe_value is wrong (i.e not conforming to the type set), safe value defaults to the default value
+	/// /////////////////////////////////////////////////
+	std::string safe_value;
 };
+
+
+/// TODOS
+/// Include array functionality to be able to store lists of items.
 #endif // !STORE_H
