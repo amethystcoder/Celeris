@@ -2,6 +2,8 @@
 #define STORE_H
 
 #include "ast/ast.h"
+#include <array>
+#include <ranges>
 
 /// //////////////////////////////////////////////
 /// Store node: Store an item dynamically sent by the server
@@ -34,20 +36,27 @@ namespace Celeris {
 	/// Contains all utility functionality to Resolve and check Int correctness
 	/// /////////////////////////////////////////
 	struct ResolveInt {
-		constexpr bool check_type_correctness();
+		constexpr bool check_type_correctness(const std::string& item);
 	};
 
 	/// //////////////////////////////////////////
 	/// Contains all utility functionality to Resolve and check String correctness
 	/// /////////////////////////////////////////
 	struct ResolveString {
-
+		constexpr bool check_type_correctness(const std::string& item); // This might end up not being needed, as there is no check for strings
 	};
 
 	/// //////////////////////////////////////////
 	/// Contains all utility functionality to Resolve and check Boolean correctness
 	/// /////////////////////////////////////////
-	struct ResolveBoolean{};
+	struct ResolveBoolean{
+		constexpr bool check_type_correctness(const std::string& item); //check for the correctness or truthyness of a value
+	};
+
+
+	enum class TypeStoreResult {
+		Success, Error
+	};
 };
 
 
@@ -86,6 +95,20 @@ protected:
 	///		   : a shape (possible object shape data type determined by a shape specifier)
 	/// /////////////////////////////////////////////////
 	Celeris::Types store_type;
+
+	///////////////////////////////////////////////////
+	/// 
+	/// checks that the type of the item matches the type currently set in the store 
+	/// returns false if it does not match
+	///
+	/// ///////////////////////////////////////////
+	bool confirmStoreType(const std::string& input) const;
+
+	//set the store type and default to string on incorrect type.
+	//using the string version in attributes would be a waste for each check so assign to an enum
+	Celeris::TypeStoreResult setStoreType(const std::string& type) noexcept;
+
+	
 
 	/// /////////////////////////////////////////////////
 	/// : value of the item being stored
