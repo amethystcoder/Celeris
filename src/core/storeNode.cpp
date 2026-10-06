@@ -37,6 +37,7 @@ bool Celeris::ResolveInt::check_type_correctness(const std::string& item) {
 
 bool Celeris::ResolveString::check_type_correctness(const std::string& item){
     //strings are not strict. Might remove this to prevent the cycle moving into this function
+    //no op
     return true;
 }
 
@@ -86,12 +87,26 @@ Celeris::TypeStoreResult StoreNode::setStoreType(const std::string& type) {
     return Celeris::TypeStoreResult::Success;
 }
 
+bool StoreNode::confirmStoreType(const std::string& input) const {
+    if (store_type == Celeris::Types::Boolean) return Celeris::ResolveBoolean::check_type_correctness(input);
+    if (store_type == Celeris::Types::Integer) return Celeris::ResolveInt::check_type_correctness(input);
+    if (store_type == Celeris::Types::String) return Celeris::ResolveString::check_type_correctness(input);
+    //Will work on shape soon
+    //if (store_type == Celeris::Types::Shape) return Celeris::ResolveBoolean::check_type_correctness(input);
+}
+
 bool StoreNode::storeItem(const std::string& item) noexcept {
-    
+    //check that the item is of the right type
+    if (confirmStoreType(item)) {
+        //just store in the value
+        value = item;
+    }
+    else value = determine_default_value();
     return true;
 }
 
 constexpr std::string StoreNode::determine_default_value()
 {
+
     return std::string();
 }

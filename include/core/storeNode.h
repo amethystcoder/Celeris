@@ -28,7 +28,7 @@
 
 namespace Celeris {
 	
-	constexpr enum class Types {
+	enum class Types {
 		Integer, String, Boolean, Shape
 	};
 
@@ -100,13 +100,27 @@ protected:
 	/// /////////////////////////////////////////////////
 	Celeris::Types store_type;
 
-	///////////////////////////////////////////////////
+	/// ////////////////////////////////////////////////
 	/// 
 	/// checks that the type of the item matches the type currently set in the store 
 	/// returns false if it does not match
 	///
 	/// ///////////////////////////////////////////
 	bool confirmStoreType(const std::string& input) const;
+
+	/// //////////////////////////////////////////////////
+	///	: Confirms the safe value if it exists
+	///		: checks the type of the safe value for correctness
+	///		: defaults to a random safe value
+	///		
+	///		Defaults :
+	///			: String = ""
+	///			: Integer = 0
+	///			: Boolean = false or 0;
+	///			: shape = {}
+	///		
+	/// ///////////////////////////////////////////////////
+	bool confirmAndSetSafeValue() noexcept;
 
 	//set the store type and default to string on incorrect type.
 	//using the string version in attributes would be a waste for each check so assign to an enum
@@ -129,6 +143,7 @@ protected:
 	/// /////////////////////////////////////////////////
 	/// : safe default value of item being stored
 	///		: if safe_value is wrong (i.e not conforming to the type set), safe value defaults to the default value
+	/// 
 	/// /////////////////////////////////////////////////
 	std::string safe_value;
 };
