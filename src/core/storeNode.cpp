@@ -14,21 +14,24 @@ bool Celeris::ResolveInt::check_type_correctness(const std::string& item) {
     //We do not use functions like std::stoi because we are going to include extra functionality
     //And robustness
 
-    //check the first character
-    const char starting_char = item[0];
+    int i = 0;
+    //check the string is empty
+    if (item.size() == 0) return false;
 
-    const short starting_pos = (starting_char == '-' || starting_char == '+') ? 1 : 0;
+    //try ignore leading whitespace
+    while (item[i] == ' ' && i < item.size()) i++;
+
+    //check the first character
+    const char starting_char = item[i];
+
+    const auto starting_pos = (starting_char == '-' || starting_char == '+') ? 1 : 0;
+
+    //catch both - and + only strings. 
+    if (item.size() == 1 && starting_pos == 1) return false;
 
     auto stop_pos = item.find_first_not_of("0123456789", starting_pos); //check for the first non digit
 
     return stop_pos == std::string::npos;
-
-    /*
-        auto checkdigit = [](const char& each) -> bool {
-            std::isdigit(each) || (each == '-');
-        };
-        auto result = std::views::filter(checkdigit);
-    */
 }
 
 
