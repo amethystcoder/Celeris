@@ -79,15 +79,24 @@ public:
 	/// In the case that an item is provided and the type of this item does not conform with the type or shape provided,
 	/// The store node defaults to the safe type, or the type
     /// 
-    /// <param name="item">The item to store, provided as a string.</param>
-    /// <returns>true if the item was stored successfully; false otherwise.</returns>
+    /// returns true if the item was stored successfully; false otherwise
 	/// //////////////////////////////////////////////////////////////////////////
     bool storeItem(const std::string &item) noexcept;
 
 private:
 	std::vector<RawDependency*> rawDependencies = {};
+	
+	/// ///////////////////////////////////////////////////////////////
+	/// 
+	/// Determine the default value based on the type supplied.
+	///		: 
+	/// 
+	/// //////////////////////////////////////////////////////////////
+	std::string determine_default_value() const;
 
-	std::string determine_default_value();
+	enum class ShouldState {
+		error, log, silent
+	};
 
 
 protected:
@@ -99,6 +108,8 @@ protected:
 	///		   : a shape (possible object shape data type determined by a shape specifier)
 	/// /////////////////////////////////////////////////
 	Celeris::Types store_type;
+
+	ShouldState should;
 
 	/// ////////////////////////////////////////////////
 	/// 
@@ -120,13 +131,23 @@ protected:
 	///			: shape = {}
 	///		
 	/// ///////////////////////////////////////////////////
-	bool confirmAndSetSafeValue() noexcept;
+	bool confirmAndSetSafeValue(const std::string& safe_val) noexcept;
+
+	
+	void resolveShould(const std::string& input) noexcept;
+
+	/// ////////////////////////////////////////////////////
+	/// : Checks the value of the should attribute passed in
+	///		: validates the value and
+	///		: sets the internal should to one of the three 
+	///		: enum values
+	/// 
+	/// ///////////////////////////////////////////////////
+	void setShould(std::string& should_val) noexcept;
 
 	//set the store type and default to string on incorrect type.
 	//using the string version in attributes would be a waste for each check so assign to an enum
 	Celeris::TypeStoreResult setStoreType(const std::string& type) noexcept;
-
-	
 
 	/// /////////////////////////////////////////////////
 	/// : value of the item being stored

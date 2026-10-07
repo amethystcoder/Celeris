@@ -62,6 +62,8 @@ void StoreNode::registernode(const std::string& name, const std::string& attribu
 	ASTManager::addNodeChildrenFromContent(content, this);
     //custom, set the type
     setStoreType(nodeAttributes["type"]);
+    setShould(nodeAttributes["should"]);
+    confirmAndSetSafeValue(nodeAttributes["safe_value"]);
 }
 
 ProcessEntry* StoreNode::getattachable(NodeDependencies& dependencyList){
@@ -71,7 +73,7 @@ ProcessEntry* StoreNode::getattachable(NodeDependencies& dependencyList){
 
 Celeris::TypeStoreResult StoreNode::setStoreType(const std::string& type) {
     //check the type... else default to a string type.
-    std::unordered_map < std::string, Celeris::Types > typeRelInfo{
+    static std::unordered_map < std::string, Celeris::Types > typeRelInfo{
         {"string", Celeris::Types::String},
         {"int", Celeris::Types::Integer},
         {"bool", Celeris::Types::Boolean},
@@ -100,13 +102,72 @@ bool StoreNode::storeItem(const std::string& item) noexcept {
     if (confirmStoreType(item)) {
         //just store in the value
         value = item;
+        return true;
     }
-    else value = determine_default_value();
+
+    resolveShould(item);
+    
+    //else value = determine_default_value();
     return true;
 }
 
-constexpr std::string StoreNode::determine_default_value()
-{
+void StoreNode::setShould(std::string& should_val){
+    // gets the should val
+    // confirms that is is correct
+    //defaults to error
+    static std::unordered_map<std::string, ShouldState> stateMap = {
+        {"error", ShouldState::error},
+        {"log", ShouldState::log},
+        {"silent", ShouldState::silent}
+    };
 
-    return std::string();
+    if (stateMap.find(should_val) == stateMap.end()) {
+        //default to error
+        nodeAttributes["should"] = "error";
+        should = ShouldState::error;
+        return;
+    }
+
+    should = stateMap[should_val];
+}
+
+bool StoreNode::confirmAndSetSafeValue(const std::string& safe_val) noexcept
+{
+    //check the validity of the safe value entered
+    // using the store type checker
+    if (confirmStoreType(safe_val)) {
+        safe_value = safe_val;
+        return true;
+    }
+    else {
+        safe_value = determine_default_value();
+        nodeAttributes["safe_value"] = safe_value;
+        return false;
+    }
+}
+
+void StoreNode::resolveShould(const std::string& item){
+    //depending on `should` it would throw an error or default
+    switch (should) {
+    case ShouldState::error:
+        std::cerr << "Your item is not of the correct type: " << item << "received \n";
+        break;
+    case ShouldState::log:
+        std::cout << "Your item is not of the correct type: " << item << "received \n";
+        std::cout << "Defaulting to: " << safe_value << "\n";
+        value = safe_value;
+        break;
+    case ShouldState::silent:
+        //show nothing to the user
+        value = safe_value;
+    }
+}
+
+
+std::string StoreNode::determine_default_value() const {
+    if (store_type == Celeris::Types::Boolean) return "false";
+    if (store_type == Celeris::Types::Integer) return "0";
+    if (store_type == Celeris::Types::String) return "";
+    if (store_type == Celeris::Types::Shape) return "{}";
+    return "";
 }

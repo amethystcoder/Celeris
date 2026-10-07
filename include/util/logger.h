@@ -10,6 +10,8 @@
 
 #include <vector>
 
+
+//TODO: remember to add source_location for stack traces...
 class Logger {
 public:
 	enum class LogLevel {
