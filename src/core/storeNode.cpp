@@ -95,6 +95,7 @@ bool StoreNode::confirmStoreType(const std::string& input) const {
     if (store_type == Celeris::Types::String) return Celeris::ResolveString::check_type_correctness(input);
     //Will work on shape soon
     //if (store_type == Celeris::Types::Shape) return Celeris::ResolveBoolean::check_type_correctness(input);
+    return Celeris::ResolveString::check_type_correctness(input);
 }
 
 bool StoreNode::storeItem(const std::string& item) noexcept {

@@ -24,14 +24,14 @@ public:
         this->socket = sock;
     }
 
-    void setHeaders(const HTTPHeaderMap& headers) noexcept {
+    void setHeaders(const HTTPHeaderMap& _headers) noexcept {
         std::lock_guard<std::mutex> lock(mutex);
-        this->headers = headers;
+        this->headers = _headers;
     }
 
-    void setContent(const std::string& content) noexcept {
+    void setContent(const std::string& _content) noexcept {
         std::lock_guard<std::mutex> lock(mutex);
-        this->content = content;
+        this->content = _content;
     }
 
     void setIpAddress() noexcept {
@@ -65,9 +65,9 @@ public:
 		return this->route;
 	}
 
-    void setRoute(const std::string& route) noexcept {
+    void setRoute(const std::string& _route) noexcept {
         std::lock_guard<std::mutex> lock(mutex);
-        this->route = route;
+        this->route = _route;
     }
 
 	std::string setRequestMethod(const std::string& method) noexcept {
