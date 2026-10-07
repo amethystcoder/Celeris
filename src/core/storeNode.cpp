@@ -71,7 +71,7 @@ ProcessEntry* StoreNode::getattachable(NodeDependencies& dependencyList){
     return new ProcessEntry(this, dependencyList, process);
 }
 
-Celeris::TypeStoreResult StoreNode::setStoreType(const std::string& type) {
+Celeris::TypeStoreResult StoreNode::setStoreType(const std::string& type) noexcept {
     //check the type... else default to a string type.
     static std::unordered_map < std::string, Celeris::Types > typeRelInfo{
         {"string", Celeris::Types::String},
@@ -111,7 +111,7 @@ bool StoreNode::storeItem(const std::string& item) noexcept {
     return true;
 }
 
-void StoreNode::setShould(std::string& should_val){
+void StoreNode::setShould(std::string& should_val) noexcept {
     // gets the should val
     // confirms that is is correct
     //defaults to error
@@ -146,7 +146,7 @@ bool StoreNode::confirmAndSetSafeValue(const std::string& safe_val) noexcept
     }
 }
 
-void StoreNode::resolveShould(const std::string& item){
+void StoreNode::resolveShould(const std::string& item) noexcept {
     //depending on `should` it would throw an error or default
     switch (should) {
     case ShouldState::error:

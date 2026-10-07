@@ -40,21 +40,21 @@ namespace Celeris {
 		// if the the supplied integer is larger than the size, 
 		// we treat the number as a 'chain' integer.
 		static const short max_int_size{ 19 }; //related to a max 64 bit (will also test with cpp limits)
-		static constexpr bool check_type_correctness(const std::string& item);
+		static bool check_type_correctness(const std::string& item);
 	};
 
 	/// //////////////////////////////////////////
 	/// Contains all utility functionality to Resolve and check String correctness
 	/// /////////////////////////////////////////
 	struct ResolveString {
-		static constexpr bool check_type_correctness(const std::string& item); // This might end up not being needed, as there is no check for strings
+		static bool check_type_correctness(const std::string& item); // This might end up not being needed, as there is no check for strings
 	};
 
 	/// //////////////////////////////////////////
 	/// Contains all utility functionality to Resolve and check Boolean correctness
 	/// /////////////////////////////////////////
 	struct ResolveBoolean{
-		static constexpr bool check_type_correctness(const std::string& item); //check for the correctness or truthyness of a value
+		static bool check_type_correctness(const std::string& item); //check for the correctness or truthyness of a value
 	};
 
 
@@ -72,7 +72,7 @@ public:
 
 	void registernode(const std::string& name, const std::string& attributes, std::string& content);
 
-	ProcessEntry* getattachable(NodeDependencies& dependencies) override = 0;
+	ProcessEntry* getattachable(NodeDependencies& dependencies) override;
 
     /// ////////////////////////////////////////////////////////////////////////
     /// Attempts to store an item using the provided data. The function is noexcept and will not throw exceptions.
