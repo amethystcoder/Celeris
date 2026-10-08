@@ -3,6 +3,25 @@
 
 #include "ast/ast.h"
 
+
+
+class InternalShapeRep {
+
+	InternalShapeRep();
+	~InternalShapeRep();
+
+	//delete copy constructor
+	//InternalShapeRep(InternalShapeRep& second) = delete;
+
+public:
+
+	//TODO: find out if we would need to keep this a singleton
+	static InternalShapeRep& getInstance() {
+		static InternalShapeRep instance;
+		return instance;
+	}
+};
+
 /// //////////////////////////////////////////////////////////////////
 /// 
 /// : The shape node stores and validates the shape
@@ -32,7 +51,7 @@ private:
 	/// : Since the representation might usually be in a hierachy,
 	///		a tree like structure might be the best bet in this scenario
 	/// 
-	/// : What kind of tree? like a B+ tree? cannot be a binary type of tree.
+	/// : What kind of tree? like a shema tree? cannot be a binary type of tree.
 	/// : Like the type of tree found in asts?
 	/// 
 	/// : How do we easily validate?
