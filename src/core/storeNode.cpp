@@ -64,6 +64,8 @@ void StoreNode::registernode(const std::string& name, const std::string& attribu
     setStoreType(nodeAttributes["type"]);
     setShould(nodeAttributes["should"]);
     confirmAndSetSafeValue(nodeAttributes["safe_value"]);
+    //check if there is an initial content and add that
+    if (nodeAttributes.find("initcontent") != nodeAttributes.end()) storeItem(nodeAttributes["initcontent"]);
 }
 
 ProcessEntry* StoreNode::getattachable(NodeDependencies& dependencyList){
