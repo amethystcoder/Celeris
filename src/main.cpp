@@ -4,6 +4,8 @@
 #include "core/databaseNode.h"
 #include <vector>
 #include "util/fileParser.h"
+
+//nodes
 #include "core/RouteNode.h"
 #include "core/APINode.h"
 #include "core/RatelimitNode.h"
@@ -12,6 +14,7 @@
 #include "core/requestNode.h"
 #include "core/itemNode.h"
 #include "core/ifNode.h"
+#include "core/shapeNode.h"
 
 #include "process/process.h"
 
