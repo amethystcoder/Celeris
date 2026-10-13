@@ -2,16 +2,32 @@
 #define SHAPE_H
 
 #include "ast/ast.h"
-
+#include <vector>
 
 
 class InternalShapeRep {
 
 	InternalShapeRep();
+
+	//TODO: Add delete functionality for children
 	~InternalShapeRep();
+
+	using ShapeRepChildren = std::vector<std::unique_ptr<InternalShapeRep>>;
+
+	//reverse
+
+
 
 	//delete copy constructor
 	//InternalShapeRep(InternalShapeRep& second) = delete;
+
+	//copy operators and move operators
+	InternalShapeRep operator=(InternalShapeRep& second) = delete;
+	InternalShapeRep operator=(InternalShapeRep&& second) = delete;
+
+	ShapeRepChildren children;
+
+	Celeris::Types inner_type;
 
 public:
 
@@ -20,6 +36,13 @@ public:
 		static InternalShapeRep instance;
 		return instance;
 	}
+
+	Celeris::Types get_type() const noexcept { return inner_type; }
+
+	bool confirm_type() noexcept { return false; }
+
+	
+
 };
 
 /// //////////////////////////////////////////////////////////////////
