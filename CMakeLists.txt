@@ -29,6 +29,7 @@ add_executable(Celeris
     src/core/storeNode.cpp
     src/core/taskNode.cpp
     src/core/ifNode.cpp
+    src/core/shapeNode.cpp
 
     # db
     src/db/databaseCon.cpp
@@ -42,6 +43,9 @@ add_executable(Celeris
 
     # platform
     src/platform/plugin_loader.cpp
+
+    # parsing
+    src/parser/jsonParser.cpp
 
     # process
     src/process/process.cpp
@@ -57,7 +61,7 @@ add_executable(Celeris
 
     # util/decisions
     src/util/decisions/decNode.cpp
-    src/util/decisions/ifDecTree.cpp)
+    src/util/decisions/ifDecTree.cpp "include/util/types.h")
 
 
 target_include_directories(Celeris PRIVATE

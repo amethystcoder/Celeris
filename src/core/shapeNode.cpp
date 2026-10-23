@@ -1,4 +1,4 @@
-#include "shapeNode.h"
+#include "core/shapeNode.h"
 #include "core/storeNode.h"
 #include "ast/ast_manager.h"
 
